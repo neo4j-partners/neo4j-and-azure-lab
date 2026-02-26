@@ -4,11 +4,10 @@ Test Neo4j connection and schema retrieval.
 Run with: uv run python solutions/test_connection.py
 """
 
-from azure.identity import DefaultAzureCredential
 from neo4j_graphrag.schema import get_schema
 from openai import OpenAI
 
-from config import get_neo4j_driver, Neo4jConfig, get_agent_config
+from config import get_neo4j_driver, Neo4jConfig, get_agent_config, _get_azure_token
 
 
 def print_section(title: str, items: list[str]) -> None:
@@ -120,20 +119,25 @@ def get_constraints(driver) -> list[str]:
     return constraints
 
 
-def test_azure_model_connection() -> bool:
-    """Test Microsoft Foundry model connection via OpenAI-compatible endpoint."""
+def test_model_connection() -> bool:
+    """Test model connection via OpenAI or Azure AI Foundry."""
     config = get_agent_config()
-    credential = DefaultAzureCredential()
-    token = credential.get_token("https://cognitiveservices.azure.com/.default")
 
-    print(f"Endpoint: {config.inference_endpoint}")
-    print(f"Model: {config.model_name}")
-    print()
-
-    client = OpenAI(
-        base_url=config.inference_endpoint,
-        api_key=token.token,
-    )
+    if config.use_openai:
+        print("Provider: OpenAI")
+        print(f"Model: {config.model_name}")
+        print()
+        client = OpenAI(api_key=config.openai_api_key)
+    else:
+        token = _get_azure_token()
+        print("Provider: Azure AI Foundry")
+        print(f"Endpoint: {config.inference_endpoint}")
+        print(f"Model: {config.model_name}")
+        print()
+        client = OpenAI(
+            base_url=config.inference_endpoint,
+            api_key=token,
+        )
 
     try:
         response = client.chat.completions.create(
@@ -185,11 +189,11 @@ def main():
         constraints = get_constraints(driver)
         print_section("CONSTRAINTS", constraints)
 
-    # Test Microsoft Foundry model connection
+    # Test model connection
     print("=" * 50)
-    print("Microsoft Foundry Model")
+    print("LLM Model")
     print("=" * 50)
-    if test_azure_model_connection():
+    if test_model_connection():
         print("Model connection successful!")
     else:
         print("WARNING: Model connection failed")

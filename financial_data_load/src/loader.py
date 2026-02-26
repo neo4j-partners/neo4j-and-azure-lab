@@ -159,7 +159,7 @@ def verify(driver: Driver) -> None:
     # Use explicit per-label counts to avoid inflation from multi-label nodes
     # (e.g. __Entity__ + Company would double-count in a labels(n)/UNWIND approach).
     node_counts, _, _ = driver.execute_query("""
-        CALL {
+        CALL () {
             MATCH (n:Company) RETURN 'Company' AS label, count(n) AS count
             UNION ALL
             MATCH (n:RiskFactor) RETURN 'RiskFactor' AS label, count(n) AS count

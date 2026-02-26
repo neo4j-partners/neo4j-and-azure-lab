@@ -2,18 +2,18 @@
 Shared configuration and utilities for workshop solutions.
 
 This module provides common functionality for Neo4j connections,
-Microsoft Foundry integration, and configuration management.
+LLM/embedder initialization, and configuration management.
+Supports both direct OpenAI and Azure AI Foundry.
 """
 
 from contextlib import contextmanager
 from pathlib import Path
 
-from azure.identity import AzureCliCredential, DefaultAzureCredential
 from dotenv import load_dotenv
 from neo4j import GraphDatabase
 from neo4j_graphrag.embeddings import OpenAIEmbeddings
 from neo4j_graphrag.llm import OpenAILLM
-from pydantic import Field, computed_field
+from pydantic import Field, computed_field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Load .env from financial_data_load directory
@@ -32,25 +32,52 @@ class Neo4jConfig(BaseSettings):
 
 
 class AgentConfig(BaseSettings):
-    """Agent configuration loaded from environment variables."""
+    """LLM configuration loaded from environment variables.
+
+    Supports two providers (auto-detected from environment):
+    - OpenAI directly: set OPENAI_API_KEY
+    - Azure AI Foundry: set AZURE_AI_PROJECT_ENDPOINT (uses az login)
+    """
 
     model_config = SettingsConfigDict(env_prefix="", extra="ignore")
 
-    project_endpoint: str = Field(validation_alias="AZURE_AI_PROJECT_ENDPOINT")
-    model_name: str = Field(default="gpt-5.2", validation_alias="AZURE_AI_MODEL_NAME")
+    openai_api_key: str | None = Field(
+        default=None, validation_alias="OPENAI_API_KEY"
+    )
+    project_endpoint: str | None = Field(
+        default=None, validation_alias="AZURE_AI_PROJECT_ENDPOINT"
+    )
+    model_name: str = Field(default="gpt-4o", validation_alias="AZURE_AI_MODEL_NAME")
     embedding_name: str = Field(
         default="text-embedding-ada-002",
         validation_alias="AZURE_AI_EMBEDDING_NAME",
     )
 
+    @model_validator(mode="after")
+    def _check_provider(self) -> AgentConfig:
+        if not self.openai_api_key and not self.project_endpoint:
+            raise ValueError(
+                "No LLM provider configured. Set one of:\n"
+                "  - OPENAI_API_KEY (for OpenAI directly)\n"
+                "  - AZURE_AI_PROJECT_ENDPOINT (for Azure AI Foundry)"
+            )
+        return self
+
     @computed_field
     @property
-    def inference_endpoint(self) -> str:
+    def inference_endpoint(self) -> str | None:
         """Get the model inference endpoint from project endpoint."""
+        if not self.project_endpoint:
+            return None
         if "/api/projects/" in self.project_endpoint:
             base = self.project_endpoint.split("/api/projects/")[0]
             return f"{base}/models"
         return self.project_endpoint
+
+    @property
+    def use_openai(self) -> bool:
+        """True when using OpenAI directly instead of Azure."""
+        return self.openai_api_key is not None
 
 
 @contextmanager
@@ -78,9 +105,9 @@ def _get_azure_token() -> str:
 
     Tries AzureCliCredential first (for Dev Containers after 'az login'),
     then falls back to DefaultAzureCredential for other environments.
-
-    If authentication fails, provides a helpful error message.
     """
+    from azure.identity import AzureCliCredential, DefaultAzureCredential
+
     scope = "https://cognitiveservices.azure.com/.default"
 
     # Try Azure CLI first (most common in Dev Containers)
@@ -106,14 +133,16 @@ def _get_azure_token() -> str:
 
 
 def get_embedder() -> OpenAIEmbeddings:
-    """
-    Get embedder using Microsoft Foundry's OpenAI-compatible endpoint.
-
-    Uses Azure CLI credentials to authenticate with the inference endpoint.
-    """
+    """Get embedder configured from environment (OpenAI or Azure AI Foundry)."""
     config = get_agent_config()
-    token = _get_azure_token()
 
+    if config.use_openai:
+        return OpenAIEmbeddings(
+            model=config.embedding_name,
+            api_key=config.openai_api_key,
+        )
+
+    token = _get_azure_token()
     return OpenAIEmbeddings(
         model=config.embedding_name,
         base_url=config.inference_endpoint,
@@ -122,14 +151,16 @@ def get_embedder() -> OpenAIEmbeddings:
 
 
 def get_llm() -> OpenAILLM:
-    """
-    Get LLM using Microsoft Foundry's OpenAI-compatible endpoint.
-
-    Uses Azure CLI credentials to authenticate with the inference endpoint.
-    """
+    """Get LLM configured from environment (OpenAI or Azure AI Foundry)."""
     config = get_agent_config()
-    token = _get_azure_token()
 
+    if config.use_openai:
+        return OpenAILLM(
+            model_name=config.model_name,
+            api_key=config.openai_api_key,
+        )
+
+    token = _get_azure_token()
     return OpenAILLM(
         model_name=config.model_name,
         base_url=config.inference_endpoint,
