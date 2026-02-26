@@ -159,7 +159,7 @@ You'll need a laptop with a web browser. Your browser will need to be able to ac
 * [Lab 3 - Microsoft Foundry Agents](Lab_3_Foundry_Agents) (15 min)
     * Access Microsoft Foundry
     * Create a Foundry Project
-    * Deploy gpt-4o-mini model
+    * Deploy gpt-5.2 model
     * Build an agent with MCP tools
 * Break (5 min)
 
@@ -393,7 +393,7 @@ Install the following extensions for an optimal development experience:
    azd up
    ```
    This will provision:
-   - Microsoft Foundry project with gpt-4o-mini and text-embedding-ada-002 models
+   - Microsoft Foundry project with gpt-5.2 and text-embedding-ada-002 models
    - Azure Container Registry
    - Azure Monitor and Application Insights
 

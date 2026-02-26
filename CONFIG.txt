@@ -14,5 +14,5 @@ NEO4J_PASSWORD=your-password-here
 # Azure AI Services
 # -----------------------------------------------------------------------------
 AZURE_AI_PROJECT_ENDPOINT=https://your-endpoint.services.ai.azure.com/api/projects/your-project
-AZURE_AI_MODEL_NAME=gpt-4o-mini
+AZURE_AI_MODEL_NAME=gpt-5.2
 AZURE_AI_EMBEDDING_NAME=text-embedding-ada-002

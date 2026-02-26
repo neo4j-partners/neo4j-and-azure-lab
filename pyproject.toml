@@ -5,20 +5,20 @@ description = "Neo4j and Azure Lab - GraphRAG workshop with Microsoft Foundry"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "azure-identity>=1.19.0",
-    "azure-ai-projects>=1.0.0b11",
-    "azure-ai-inference>=1.0.0b7",
+    "azure-identity>=1.25.2",
+    "azure-ai-projects>=1.0.0",
+    "azure-ai-inference>=1.0.0b9",
     "python-dotenv",
-    "pydantic-settings>=2.0.0",
-    "neo4j>=5.0.0",
-    # Using local fork for testing - replace with "neo4j-graphrag>=1.10.0" for production
-    "neo4j-graphrag @ file:///Users/ryanknight/projects/neo4j-graphrag-python",
-    "httpx>=0.27.0",
-    "openai>=1.0.0",
-    "ipykernel>=6.0.0",
-    "nbstripout>=0.8.0",
-    "agent-framework-core>=1.0.0b251120",
-    "agent-framework-azure-ai>=1.0.0b251120",
+    "pydantic-settings>=2.13.1",
+    "neo4j>=6.1.0",
+    "neo4j-graphrag>=1.13.1",
+    "httpx>=0.28.1",
+    "openai>=2.24.0",
+    "ipykernel>=7.2.0",
+    "nbstripout>=0.9.1",
+    "agent-framework-core>=1.0.0rc2",
+    "agent-framework-azure-ai>=1.0.0rc2",
+    "rapidfuzz>=3.0.0",
 ]
 
 [tool.uv]

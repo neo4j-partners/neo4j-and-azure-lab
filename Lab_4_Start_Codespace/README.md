@@ -42,7 +42,7 @@ To view your Foundry project:
    ![Foundry Home Page](images/Foundry_Home_Page.png)
 
 2. The deployment created two models:
-   - **gpt-4o-mini** - for text generation
+   - **gpt-5.2** - for text generation
    - **text-embedding-ada-002** - for creating embeddings
 
    ![Foundry Models](images/Foundry_Models.png)

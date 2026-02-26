@@ -25,17 +25,20 @@ azd down                                       # Cleanup resources
 ### Running Workshop Solutions
 ```bash
 cd financial_data_load
-uv run python main.py                          # Interactive menu
-uv run python main.py 4                        # Run specific solution
-uv run python main.py A                        # Run all from option 4 onwards
-uv run python src/test_connection.py           # Test Neo4j and Azure connections
+uv run python main.py test                      # Test Neo4j and Azure connections
+uv run python main.py solutions                 # Interactive menu
+uv run python main.py solutions 4               # Run specific solution
+uv run python main.py solutions A               # Run all from option 4 onwards
 ```
 
 ### Data Loading
 ```bash
 cd financial_data_load
-uv run python full_data_load.py --limit 1 --clear   # Test with 1 PDF
-uv run python full_data_load.py --clear             # Load all 8 PDFs
+uv run python main.py load --limit 1 --clear    # Test with 1 PDF
+uv run python main.py load --clear               # Load all 8 PDFs
+uv run python main.py verify                     # Print node/relationship counts
+uv run python main.py clean                      # Clear all data
+uv run python main.py samples                    # Run sample queries
 ```
 
 ### Jupyter Notebooks
@@ -53,20 +56,21 @@ uv pip install --force-reinstall ~/projects/neo4j-graphrag-python
 - **Semantic layer**: Entities (`Company`, `Product`, `RiskFactor`, `Executive`, `FinancialMetric`, `AssetManager`) extracted via LLM
 - **Provenance**: `FROM_DOCUMENT` and `FROM_CHUNK` relationships link entities to source text
 
-### Retrieval Strategies (in `financial_data_load/src/02_*.py`)
+### Retrieval Strategies (in `financial_data_load/solution_srcs/02_*.py`)
 1. **Vector Retriever** - Semantic similarity using chunk embeddings
 2. **Vector Cypher Retriever** - Vector search + custom Cypher traversal for enriched context
 3. **Text2Cypher** - Natural language to Cypher query generation
 4. **Hybrid Search** - Combined keyword (fulltext) and semantic (vector) search
 
-### Agent Framework (in `financial_data_load/src/03_*.py`)
+### Agent Framework (in `financial_data_load/solution_srcs/03_*.py`)
 Uses Microsoft Agent Framework with Azure AI Foundry. Agents combine multiple tools:
 - Schema retrieval tool
 - Vector search + graph traversal tool
 - Text2Cypher tool
 
 ### Configuration
-- `financial_data_load/src/config.py` - Pydantic settings for Neo4j and Azure
+- `financial_data_load/src/config.py` - Pydantic settings for Neo4j and Azure (data loader)
+- `financial_data_load/solution_srcs/config.py` - Shared config for workshop solutions
 - Uses `AzureCliCredential` for authentication (run `az login` first)
 
 ## Project Structure
@@ -75,10 +79,15 @@ Uses Microsoft Agent Framework with Azure AI Foundry. Agents combine multiple to
 Lab_5_Knowledge_Graph/     # Jupyter notebooks: KG fundamentals
 Lab_6_Retrievers/          # Jupyter notebooks: GraphRAG patterns
 Lab_7_Agents/              # Jupyter notebooks: Agent Framework
-financial_data_load/       # Python CLI solutions
-  ├── src/                 # Numbered solution files (01_xx, 02_xx, 03_xx, 05_xx)
-  ├── main.py              # Interactive solution runner
-  ├── full_data_load.py    # SimpleKGPipeline data loader
+financial_data_load/       # Python CLI and data loading
+  ├── main.py              # CLI entry point (test, load, verify, clean, samples, solutions)
+  ├── src/                 # Data loader modules
+  │   ├── config.py        # Settings, Azure auth, Neo4j connection
+  │   ├── schema.py        # GraphSchema, constraints, indexes
+  │   ├── loader.py        # CSV loading, company/asset manager nodes, clear, verify
+  │   ├── pipeline.py      # SimpleKGPipeline, PDF processing, enrichment validation
+  │   └── samples.py       # Sample queries showcasing the knowledge graph
+  ├── solution_srcs/       # Numbered workshop solution files (01_xx, 02_xx, 03_xx, 05_xx)
   └── financial-data/      # SEC 10-K PDFs and CSV metadata
 infra/                     # Bicep templates for Azure deployment
 ```
@@ -103,6 +112,6 @@ NEO4J_PASSWORD=<password>
 Auto-populated by `setup_env.py`:
 ```
 AZURE_AI_PROJECT_ENDPOINT=<foundry endpoint>
-AZURE_AI_MODEL_NAME=gpt-4o-mini
+AZURE_AI_MODEL_NAME=gpt-5.2
 AZURE_AI_EMBEDDING_NAME=text-embedding-ada-002
 ```

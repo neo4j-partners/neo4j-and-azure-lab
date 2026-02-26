@@ -15,13 +15,13 @@
       "value": "${AZURE_AI_MODEL_FORMAT=OpenAI}"
     },
     "agentModelName": {
-      "value": "${AZURE_AI_MODEL_NAME=gpt-4o-mini}"
+      "value": "${AZURE_AI_MODEL_NAME=gpt-5.2}"
     },
     "agentDeploymentName": {
-      "value": "${AZURE_AI_MODEL_NAME=gpt-4o-mini}"
+      "value": "${AZURE_AI_MODEL_NAME=gpt-5.2}"
     },
     "agentModelVersion": {
-      "value": "${AZURE_AI_MODEL_VERSION=2024-07-18}"
+      "value": "${AZURE_AI_MODEL_VERSION=2025-12-11}"
     },
     "agentDeploymentSku": {
       "value": "${AZURE_AI_MODEL_SKU=Standard}"

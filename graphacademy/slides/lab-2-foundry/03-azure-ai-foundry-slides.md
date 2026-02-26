@@ -72,7 +72,7 @@ Foundry agents combine:
 │ analyst assistant specializing in       │
 │ SEC 10-K filings analysis..."           │
 ├─────────────────────────────────────────┤
-│ Model: gpt-4o-mini                      │
+│ Model: gpt-5.2                           │
 ├─────────────────────────────────────────┤
 │ Tools: Neo4j MCP Server                 │
 └─────────────────────────────────────────┘
@@ -114,7 +114,7 @@ A **Finance Agent** that:
 ## The Lab Flow
 
 1. **Create** Foundry resource and project
-2. **Deploy** gpt-4o-mini model
+2. **Deploy** gpt-5.2 model
 3. **Create** finance-agent
 4. **Add** Neo4j MCP tool
 5. **Test** with SEC filing questions

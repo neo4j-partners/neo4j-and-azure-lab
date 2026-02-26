@@ -6,17 +6,21 @@ Build AI agents using Microsoft Agent Framework with Azure AI Foundry, integrate
 
 - Azure subscription with access to Azure AI Foundry
 - Neo4j Aura instance (or local Neo4j database)
-- Python 3.11+
+- Python 3.12.x
 - [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)
 - [uv](https://docs.astral.sh/uv/) package manager
 
 ## Quick Start
 
-### 1. Deploy Azure AI Infrastructure
+All commands below assume you are in the `financial_data_load/` directory:
 
 ```bash
 cd financial_data_load
+```
 
+### 1. Deploy Azure AI Infrastructure
+
+```bash
 # Login to Azure
 az login --use-device-code
 azd auth login --use-device-code
@@ -49,53 +53,51 @@ From the **project root**:
 uv sync --prerelease=allow
 ```
 
-This project uses a local fork of `neo4j-graphrag-python` for development. If you make changes to the library, force reinstall:
+This project uses a local fork of `neo4j-graphrag-python`. After making changes to the library, force reinstall to pick them up:
 
 ```bash
-# Force reinstall after library changes
 uv pip install --force-reinstall ~/projects/neo4j-graphrag-python
 ```
 
 ### 4. Test Connections
 
 ```bash
-cd financial_data_load
-uv run python src/test_connection.py
+uv run python main.py test
 ```
 
-### 5. Load Full Dataset
+### 5. Load Data
 
 Load all SEC 10-K filings using the SimpleKGPipeline. Data files are in `financial-data/`:
 
 ```bash
-cd financial_data_load
+# Test with 1 PDF first
+uv run python main.py load --limit 1 --clear
 
-# Test with 1 PDF first (recommended)
-uv run python full_data_load.py --limit 1 --clear
-
-# Load all 8 PDFs
-uv run python full_data_load.py --clear
-
-# Options
-uv run python full_data_load.py --help
+# Once that works, load all 8 PDFs
+uv run python main.py load --clear
 ```
 
-**Options:**
-| Flag | Description |
-|------|-------------|
-| `--limit N` | Process only N PDFs (for testing) |
-| `--clear` | Clear database before loading |
-| `--skip-metadata` | Skip loading CSV metadata (Company, AssetManager) |
+**All data commands:**
+
+| Command | Description |
+|---------|-------------|
+| `main.py test` | Test Neo4j and Azure AI connections |
+| `main.py load [--limit N] [--clear]` | Full load: metadata + PDFs + constraints + indexes |
+| `main.py verify` | Counts + enrichment checks + end-to-end search validation |
+| `main.py clean` | Clear all data |
+| `main.py samples [--limit N]` | Run sample queries showcasing the graph |
 
 **Pipeline Flow:**
 1. Loads company metadata from `financial-data/Company_Filings.csv`
-2. Creates Company nodes with uniqueness constraints
+2. Creates Company nodes from CSV metadata
 3. Processes PDFs through SimpleKGPipeline:
    - Chunks documents (27 chunks per PDF typical)
    - Generates embeddings (1536 dimensions via text-embedding-ada-002)
-   - Extracts entities using GPT-4o (RiskFactor, Product, Executive, FinancialMetric)
+   - Extracts entities using GPT-5.2 (RiskFactor, Product, Executive, FinancialMetric)
    - Creates relationships (FACES_RISK, OFFERS, HAS_EXECUTIVE, etc.)
-4. Creates AssetManager nodes and OWNS relationships from `Asset_Manager_Holdings.csv`
+4. Runs fuzzy entity resolution (via `FuzzyMatchResolver`) to merge near-duplicate entities (e.g. "Apple" vs "Apple Inc.")
+5. Creates uniqueness constraints, embedding indexes, and fulltext indexes
+6. Creates AssetManager nodes and OWNS relationships from `Asset_Manager_Holdings.csv`
 
 **Expected Output (1 PDF):**
 ```
@@ -111,24 +113,24 @@ NODE COUNTS BY LABEL:
 TOTALS: 505 nodes, 310 relationships
 ```
 
-### 6. Run Workshop Solutions (Alternative)
+### 6. Run Workshop Solutions
 
 ```bash
 # Interactive menu
-uv run python main.py
+uv run python main.py solutions
 
 # Run specific solution
-uv run python main.py 4
+uv run python main.py solutions 4
 
 # Run all (from option 4 onwards)
-uv run python main.py A
+uv run python main.py solutions A
 ```
 
 ## Workshop Solutions
 
 ### Data Pipeline (01_xx)
 
-These solutions build the knowledge graph - **WARNING: they will delete existing data**:
+These solutions build the knowledge graph — **WARNING: they will delete existing data**:
 
 | # | Solution | Description |
 |---|----------|-------------|
@@ -168,16 +170,18 @@ Advanced search patterns:
 
 ## Architecture
 
-- **Azure AI Foundry** - Model hosting (GPT-4o, text-embedding-ada-002)
-- **Microsoft Agent Framework** - Agent creation and tool management
-- **neo4j-graphrag-python** - Graph retrieval capabilities
-- **Neo4j** - Graph database with vector search
+- **Azure AI Foundry** — Model hosting (GPT-5.2, text-embedding-ada-002)
+- **Microsoft Agent Framework** — Agent creation and tool management
+- **neo4j-graphrag-python** — Graph retrieval capabilities
+- **Neo4j** — Graph database with vector search
 
 ## File Structure
 
 ```
 financial_data_load/
 ├── azure.yaml              # azd deployment configuration
+├── main.py                 # CLI entry point (load, enrich, verify, clean, samples, solutions)
+├── setup_env.py            # Sync azd outputs to .env
 ├── infra/
 │   ├── main.bicep          # Azure AI Foundry infrastructure
 │   └── main.parameters.json
@@ -187,13 +191,14 @@ financial_data_load/
 │   ├── Company_Filings.csv
 │   ├── Asset_Manager_Holdings.csv
 │   └── form10k-sample/     # PDF files (8 companies)
-├── setup_env.py            # Sync azd outputs to .env
-├── full_data_load.py       # Full dataset loader (SimpleKGPipeline)
-├── main.py                 # Workshop solution runner
-├── README.md               # This file
-└── src/
-    ├── __init__.py
-    ├── config.py           # Shared configuration utilities
+├── src/                    # Data loader modules
+│   ├── config.py           # Settings, Azure auth, Neo4j connection
+│   ├── schema.py           # Graph schema, constraints, indexes
+│   ├── loader.py           # CSV loading, company/asset manager nodes
+│   ├── pipeline.py         # SimpleKGPipeline, PDF processing
+│   └── samples.py          # Sample queries
+└── solution_srcs/          # Workshop solution files
+    ├── config.py           # Shared config for solutions
     ├── test_connection.py  # Connection test script
     ├── 01_01_data_loading.py
     ├── 01_02_embeddings.py
@@ -216,7 +221,7 @@ After running `setup_env.py`, your `.env` file will contain:
 ```bash
 # Azure AI (from azd)
 AZURE_AI_EMBEDDING_NAME=text-embedding-ada-002
-AZURE_AI_MODEL_NAME=gpt-4o
+AZURE_AI_MODEL_NAME=gpt-5.2
 AZURE_AI_PROJECT_ENDPOINT=https://...
 AZURE_AI_SERVICES_ENDPOINT=https://...
 AZURE_RESOURCE_GROUP=rg-...
@@ -233,6 +238,5 @@ NEO4J_PASSWORD=your-password
 To remove deployed Azure resources:
 
 ```bash
-cd financial_data_load
 azd down
 ```

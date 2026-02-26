@@ -12,15 +12,15 @@ Before starting, make sure you have:
 
 Microsoft Foundry provides:
 
-- **Model Deployments** - Access to GPT-4, GPT-4o-mini, embedding models, and more
+- **Model Deployments** - Access to GPT-5.2, embedding models, and more
 - **Agent Framework** - Tools for building AI agents that can use external tools
 - **Unified API** - Consistent interface for different AI capabilities
 
 In this lab, you'll deploy:
-- **gpt-4o-mini** - For text generation and agent reasoning
+- **gpt-5.2** - For text generation and agent reasoning
 ---
 
-## Step 1: Access Microsoft Foundry
+## Step 1: Setup Microsoft Foundry
 
 1. Log into the [Azure Portal](https://portal.azure.com)
 2. Click on the **Foundry** icon in the Azure services section
@@ -60,18 +60,7 @@ In this lab, you'll deploy:
 
 ---
 
-## Step 6: Switch to New Foundry Experience
-
-1. Look for the banner at the top promoting the new Microsoft Foundry experience
-2. Click **Start building** to switch to the new Foundry interface
-
-![Switch to New Foundry](images/Star_Building_New_Foundry.png)
-
-> **Note:** After switching to the new Foundry Experience, if the page reloads often or gets stuck close the browser tab and try opening [https://ai.azure.com/nextgen](https://https://ai.azure.com/nextgen) directly. It may take a couple of tries to get it to open.
-
----
-
-## Step 7: Navigate to Build
+## Step 6: Navigate to Build
 
 1. After your project is created, click on **Build** in the top navigation bar
 2. This is where you'll deploy and manage your AI models
@@ -80,11 +69,11 @@ In this lab, you'll deploy:
 
 ---
 
-## Step 8: Deploy gpt-4o-mini Model
+## Step 7: Deploy gpt-5.2 Model
 
 1. Click on **Discover** in the top navigation
-2. Search for `gpt-4o-mini` in the Models section
-3. Select **gpt-4o-mini** (Chat completion, Responses)
+2. Search for `gpt-5.2` in the Models section
+3. Select **gpt-5.2**
 
 ![Deploy Model](images/foundry_deploy_model.png)
 
@@ -105,7 +94,7 @@ In this lab, you'll deploy:
 After deploying both models, verify they appear in your project:
 1. Go to **Build** > **Models**
 2. Confirm you see:
-   - `gpt-4o-mini`
+   - `gpt-5.2`
 3. Click on the model, and try it out in the playground
 
 ---
@@ -115,6 +104,8 @@ After deploying both models, verify they appear in your project:
 1. Click on **Agents** in the top left navigation and click **Create agent**
 
 2. Create an agent named `finance-agent` with the following Description
+
+3. Change the model type to  **gpt-5.2**
 
 **Description:**
 ```
@@ -131,11 +122,19 @@ Ground your responses in the actual data from SEC filings.
 
 ![Finance Agent Start](images/finance-agent-start.png)
 
-3. Add an MCP tool by clicking on **Tools**, then in the dialog go to the **Custom** tab and select **Model Context Protocol (MCP)**
+4. Add an MCP tool by clicking on **Tools**, then in the dialog go to the **Custom** tab and select **Model Context Protocol (MCP)**
 
 ![Agent MCP Tool](images/agent-mcp-tool.png)
 
-4. YOU HAVE AN AGENT! Now let's test it. Enter a query like "What risks does APPLE INC face?"
+5. In the "Add Model Context Protocol Tool" Dialog enter the mcp server information that your workshop administrator setup for you:
+
+* Name: `mcp-server-finance-agent`
+* Remote MCP Server endpoint: `https://neo4jmcp-app-dev.{hostname}.eastus.azurecontainerapps.io/mcp`  <---- CRITICAL BE SURE TO ADD /MCP At the end
+* Authentication: Key based
+* Credential Key: Authorization
+* Credential Value: Bearer {bearer_token....===}
+
+6. YOU HAVE AN AGENT! Now let's test it. Enter a query like "What risks does APPLE INC face?"
 
 We need to use "APPLE INC" because it does an exact string match for the company name.
 
@@ -143,7 +142,7 @@ You will see the agent ask you for approval to run the MCP request - click yes. 
 
 ![Test Finance Agent](images/test_finance_agent.png)
 
-5. Try publishing it and see what your new agent looks like!
+7. Try publishing it and see what your new agent looks like!
 
 ---
 
@@ -151,7 +150,7 @@ You will see the agent ask you for approval to run the MCP request - click yes. 
 
 You have now set up Microsoft Foundry with:
 - A new Foundry project
-- **gpt-4o-mini** deployed for chat completions
+- **gpt-5.2** deployed for chat completions
 
 **This completes Part 1 (No-Code Track) of the workshop.**
 

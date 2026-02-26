@@ -37,7 +37,7 @@ class AgentConfig(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="", extra="ignore")
 
     project_endpoint: str = Field(validation_alias="AZURE_AI_PROJECT_ENDPOINT")
-    model_name: str = Field(default="gpt-4o-mini", validation_alias="AZURE_AI_MODEL_NAME")
+    model_name: str = Field(default="gpt-5.2", validation_alias="AZURE_AI_MODEL_NAME")
     embedding_name: str = Field(
         default="text-embedding-ada-002",
         validation_alias="AZURE_AI_EMBEDDING_NAME",

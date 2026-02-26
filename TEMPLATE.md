@@ -53,7 +53,7 @@ Get hands-on with Neo4j and AI agents without writing any code. You'll set up a 
   - Enable natural language queries against your graph
 - **Lab 3 – Foundry Agents**:
   - Create a Microsoft Foundry project
-  - Deploy gpt-4o-mini and embedding models
+  - Deploy gpt-5.2 and embedding models
   - Build an AI agent with MCP tools connecting to Neo4j
 
 ---

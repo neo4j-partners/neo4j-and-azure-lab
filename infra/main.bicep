@@ -25,12 +25,12 @@ param agentModelFormat string = 'OpenAI'
 @description('Name of agent to deploy')
 param agentName string = 'arches-agent'
 @description('Name of the chat model to deploy')
-param agentModelName string = 'gpt-4o-mini'
+param agentModelName string = 'gpt-5.2'
 @description('Name of the model deployment')
-param agentDeploymentName string = 'gpt-4o-mini'
+param agentDeploymentName string = 'gpt-5.2'
 
 @description('Version of the chat model to deploy')
-param agentModelVersion string = '2024-07-18'
+param agentModelVersion string = '2025-12-11'
 
 @description('Sku of the chat deployment')
 param agentDeploymentSku string = 'Standard'
