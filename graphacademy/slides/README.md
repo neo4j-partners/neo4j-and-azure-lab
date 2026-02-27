@@ -51,7 +51,7 @@ All slides are organized by lab module for easy navigation.
    - Testing and Deployment
    - Bridge to Code-Based Implementation
 
-### Lab 2: Microsoft Foundry & MCP (Slides 1-3)
+### Lab 3: Microsoft Foundry & MCP (Slides 1-3)
 
 **01. What is an AI Agent** (4.0 KB)
    - Evolution of AI Assistants
@@ -74,7 +74,62 @@ All slides are organized by lab module for easy navigation.
    - MCP Tool Catalogue
    - Enterprise Governance (Control Plane)
 
-### Lab 5: Building Knowledge Graphs (Slides 1-7)
+### Lab 5: Foundry Agents (Slides 1-2)
+
+**01. The Microsoft Agent Framework**
+   - Why Agents Need a Framework (LLMs Are Stateless)
+   - Core Concepts: Agents, Tools, Context Providers, Sessions, Middleware
+   - The Agent Lifecycle (before_run → LLM → after_run)
+   - Tools vs Context Providers Comparison
+   - Key API: AzureOpenAIResponsesClient, as_agent(), run_stream()
+   - Sessions and Persistent State
+
+**02. Tools and Context Providers**
+   - Defining Tools with Type Annotations
+   - Annotated + Field for Parameter Descriptions
+   - How Tool Selection Works (Docstrings)
+   - BaseContextProvider Lifecycle Hooks
+   - before_run(): Injecting Instructions and Messages
+   - after_run(): Extracting Structured Data with Pydantic
+   - Session State Persistence
+
+### Lab 6: Neo4j Context Providers (Slides 1-2)
+
+**01. Neo4j Context Providers**
+   - What is Neo4jContextProvider (agent-framework-neo4j)
+   - How before_run() Works (Messages → Search → Format → Inject)
+   - Three Search Modes: Vector, Fulltext, Hybrid
+   - Configuration Options (top_k, message_history_count, context_prompt)
+   - Result Formatting with Scores and Metadata
+   - Retriever Selection Logic
+
+**02. Graph-Enriched Context**
+   - Why Vector Search Alone Isn't Enough
+   - The retrieval_query Parameter
+   - Two-Step Process: Index Search → Cypher Traversal
+   - Example Retrieval Query (Company → Risks, Products)
+   - Before/After: Plain Chunk vs Graph-Enriched Context
+
+### Lab 7: Agent Memory (Slides 1-2)
+
+**01. Neo4j Agent Memory**
+   - The Problem: Agents Forget Between Sessions
+   - What is neo4j-agent-memory
+   - Short-Term Memory: Messages with Embeddings
+   - Long-Term Memory: Entities, Facts (SPO Triples), Preferences
+   - Reasoning Memory: Tool Call Traces and Outcomes
+   - Graph Data Model
+   - How Memory Differs from Knowledge Graph Context
+
+**02. Memory Context Provider and Tools**
+   - Memory Context Provider: before_run() and after_run()
+   - What Gets Injected from Each Memory Type
+   - The Six Memory Tools
+   - Context Provider vs Memory Tools
+   - Combining Both Approaches
+   - Entity Extraction and Deduplication
+
+### Lab 8: Building Knowledge Graphs (Slides 1-7)
 
 **01. The GenAI Promise and Its Limits** (4.2 KB)
    - What Generative AI Does Well
@@ -124,7 +179,7 @@ All slides are organized by lab module for easy navigation.
    - Vector Search in Neo4j
    - Document Chunking
 
-### Lab 6: GraphRAG Retrievers (Slides 1-4)
+### Lab 10: GraphRAG Retrievers (Slides 1-4)
 
 **01. Retrievers Overview** (5.2 KB)
    - What is GraphRAG?
@@ -152,7 +207,7 @@ All slides are organized by lab module for easy navigation.
    - Modern Cypher Syntax Best Practices
    - Complex Query Handling
 
-### Lab 7: Intelligent Agents (Slides 1-5)
+### Lab 9: Intelligent Agents (Slides 1-5)
 
 **01. From Retrievers to Agents** (3.7 KB)
    - What are Agents?
@@ -161,7 +216,7 @@ All slides are organized by lab module for easy navigation.
 
 **02. Microsoft Agent Framework** (3.6 KB)
    - Building Agents with Microsoft Agent Framework
-   - AzureAIClient Setup
+   - AzureOpenAIResponsesClient Setup
    - Schema Tools
    - Agent Architecture
    - Tool Definition as Python Functions
@@ -420,22 +475,31 @@ marp 01-what-is-genai-slides.md --server
 
 ## 📈 Slide Statistics
 
-**Total Presentations:** 25
-**Total Slide Pages:** ~300 individual slides
+**Total Presentations:** 31
+**Total Slide Pages:** ~360 individual slides
 **Format:** Marp Markdown
 **Status:** ✅ Ready to present
 
 ### Lab Breakdown
 - **Lab 1:** 6 presentations (Neo4j Aura, GenAI Limits, Traditional RAG, GraphRAG Limits, SEC Filings Graph, Aura Agents)
-- **Lab 2:** 3 presentations (What is an Agent, MCP, Microsoft Foundry)
-- **Lab 5:** 7 presentations (GenAI Fundamentals, Knowledge Graphs)
-- **Lab 6:** 4 presentations (GraphRAG Retrievers)
-- **Lab 7:** 5 presentations (Intelligent Agents)
+- **Lab 3:** 3 presentations (What is an Agent, MCP, Microsoft Foundry)
+- **Lab 5:** 2 presentations (Microsoft Agent Framework, Tools and Context Providers)
+- **Lab 6:** 2 presentations (Neo4j Context Providers, Graph-Enriched Context)
+- **Lab 7:** 2 presentations (Agent Memory Overview, Memory Tools)
+- **Lab 8:** 7 presentations (GenAI Fundamentals, Knowledge Graphs)
+- **Lab 9:** 5 presentations (Intelligent Agents)
+- **Lab 10:** 4 presentations (GraphRAG Retrievers)
 
-### New Slides Added (December 3, 2025)
-- 01: What is an AI Agent (lab-2-foundry)
-- 02: What is MCP (lab-2-foundry)
-- 03: Microsoft Foundry (lab-2-foundry)
+### New Slides Added (February 27, 2026)
+- 01: The Microsoft Agent Framework (lab-5-foundry-agents)
+- 02: Tools and Context Providers (lab-5-foundry-agents)
+- 01: Neo4j Context Providers (lab-6-context-providers)
+- 02: Graph-Enriched Context (lab-6-context-providers)
+- 01: Neo4j Agent Memory (lab-7-agent-memory)
+- 02: Memory Context Provider and Tools (lab-7-agent-memory)
 
-**Latest Update:** Added Lab 2 slides covering AI Agents, MCP, and Microsoft Foundry
-**Version:** 2.2 (December 3, 2025)
+### Previous Updates
+- December 3, 2025: Added Lab 3 slides covering AI Agents, MCP, and Microsoft Foundry
+
+**Latest Update:** Added Lab 5, 6, 7 slides; renamed folders to match current lab numbers; updated Lab 9 MAF slide API references
+**Version:** 3.0 (February 27, 2026)

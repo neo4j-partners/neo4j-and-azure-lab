@@ -38,31 +38,35 @@ The Microsoft Agent Framework provides infrastructure for building agents:
 
 | Component | Purpose |
 |-----------|---------|
-| **AzureAIClient** | Connects to Microsoft Foundry services |
-| **ChatAgent** | Pre-built agent with tool selection |
+| **AzureOpenAIResponsesClient** | Connects to Microsoft Foundry services |
+| **`as_agent()`** | Creates an agent with tools and context providers |
 | **Tools** | Python functions with docstrings |
-| **Threads** | Conversation history for multi-turn |
+| **Sessions** | Conversation history and persistent state |
 
 ---
 
 ## Creating an Agent
 
 ```python
-async with client.create_agent(
+agent = client.as_agent(
     name="graphrag-agent",
-    instructions="You are a helpful assistant that answers questions
-                 about a knowledge graph.",
+    model=os.environ["AZURE_AI_MODEL_NAME"],
+    instructions="You are a helpful assistant that answers questions "
+                 "about a knowledge graph.",
     tools=[get_graph_schema, search_content, query_database],
-) as agent:
-    async for update in agent.run_stream(query):
-        if update.text:
-            print(update.text, end="", flush=True)
+)
+
+session = AgentSession()
+async for update in agent.run_stream(input=query, session=session):
+    if update.text:
+        print(update.text, end="", flush=True)
 ```
 
 **Key elements:**
-- `instructions`: Agent's purpose and behavior
+- `as_agent()`: Creates the agent with instructions and tools
 - `tools`: List of callable functions
 - `run_stream`: Execute and stream responses
+- `session`: Maintains conversation state across turns
 
 ---
 
@@ -147,22 +151,22 @@ Choose the appropriate tool based on the question type."
 
 ---
 
-## Thread Management
+## Session Management
 
 For multi-turn conversations:
 
 ```python
-# Create a thread for conversation context
-thread = agent.get_new_thread()
+# Create a session for conversation context
+session = AgentSession()
 
 # First message
-result1 = await agent.run("What companies are in the database?", thread=thread)
+result1 = await agent.run(input="What companies are in the database?", session=session)
 
 # Follow-up maintains context
-result2 = await agent.run("Tell me more about the first one", thread=thread)
+result2 = await agent.run(input="Tell me more about the first one", session=session)
 ```
 
-The thread preserves conversation history.
+The session preserves conversation history and persistent state.
 
 ---
 
@@ -171,7 +175,7 @@ The thread preserves conversation history.
 For real-time output:
 
 ```python
-async for update in agent.run_stream(query):
+async for update in agent.run_stream(input=query, session=session):
     if update.text:
         print(update.text, end="", flush=True)
 ```
@@ -187,11 +191,11 @@ async for update in agent.run_stream(query):
 
 The Microsoft Agent Framework provides:
 
-- **AzureAIClient** for Microsoft Foundry integration
-- **ChatAgent** for pre-built agent functionality
+- **AzureOpenAIResponsesClient** for Microsoft Foundry integration
+- **`as_agent()`** for creating agents with tools and context providers
 - **Automatic tool selection** based on docstrings
 - **ReAct pattern** for reasoning and acting
-- **Thread management** for conversations
+- **Session management** for conversations and persistent state
 - **Streaming** for real-time responses
 
 **Next:** Build your agent progressively—starting with one tool.
