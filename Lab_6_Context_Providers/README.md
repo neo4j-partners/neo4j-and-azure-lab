@@ -2,6 +2,46 @@
 
 In this lab, you'll learn how to use **context providers** with the Microsoft Agent Framework (MAF) to automatically inject knowledge graph context into agent conversations. Instead of defining tools that the agent must explicitly call, context providers run automatically before each agent invocation, enriching the LLM with relevant information from your Neo4j knowledge graph.
 
+## What is Neo4jContextProvider?
+
+The notebooks in this lab use `Neo4jContextProvider` from the [`agent-framework-neo4j`](https://github.com/neo4j-labs/agent-framework-neo4j) package. It's a MAF context provider that connects your agent to a Neo4j knowledge graph, automatically searching for relevant content and injecting it into the LLM's context window before every invocation.
+
+### How It Works
+
+When the agent receives a query, the provider's `before_run()` hook:
+
+1. Takes the most recent messages from the conversation (configurable via `message_history_count`, default 10)
+2. Concatenates the message text into a single search query
+3. Executes a search against a Neo4j index (vector, fulltext, or hybrid)
+4. Formats the results with scores and metadata (e.g., `[Score: 0.892] [company: Apple Inc]`)
+5. Injects the formatted context into the agent's session via `context.extend_messages()`
+
+The LLM then sees this context alongside the user's question and can ground its answer in real knowledge graph data.
+
+### Search Modes
+
+The provider supports three search modes via the `index_type` parameter:
+
+| Mode | How It Works | Best For |
+|------|-------------|----------|
+| **`vector`** | Converts query to an embedding, searches a vector index by cosine similarity | Finding conceptually related content even when keywords don't match |
+| **`fulltext`** | Tokenizes query, searches a fulltext index using BM25 scoring | Finding content with specific terms and exact phrases |
+| **`hybrid`** | Runs both vector and fulltext searches, combines scores | Comprehensive retrieval combining semantic understanding and keyword matching |
+
+### Graph Enrichment
+
+The provider's most powerful feature is **graph enrichment** via the `retrieval_query` parameter. After the initial index search finds matching nodes, a custom Cypher query traverses the graph to pull in related entities — company names, products, risk factors, executives — giving the LLM much richer context than the matched text alone.
+
+The provider automatically selects the right underlying retriever based on your configuration:
+
+| index_type | retrieval_query | Retriever Used |
+|------------|-----------------|----------------|
+| `vector` | Not set | `VectorRetriever` |
+| `vector` | Set | `VectorCypherRetriever` |
+| `fulltext` | Any | `FulltextRetriever` |
+| `hybrid` | Not set | `HybridRetriever` |
+| `hybrid` | Set | `HybridCypherRetriever` |
+
 ## Prerequisites
 
 Before starting, make sure you have:

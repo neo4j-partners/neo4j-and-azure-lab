@@ -4,7 +4,9 @@ In this lab, you'll build your first intelligent agents using the **Microsoft Ag
 
 ## What is the Microsoft Agent Framework?
 
-The [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) is a production-ready framework for building AI agents that can reason, use tools, and maintain context across conversations. It provides:
+The [Microsoft Agent Framework](https://github.com/microsoft/agent-framework) is a production-ready framework for building AI agents that can reason, use tools, and maintain context across conversations. At its core, it solves a fundamental problem: LLMs are stateless. Every time you send a message, the model has no memory of previous interactions and no access to your data. The agent framework bridges this gap by orchestrating a lifecycle around each LLM invocation — injecting relevant knowledge before the call (via context providers), giving the model the ability to take actions (via tools), and extracting useful information from the response afterward. This turns a bare LLM into an agent that can retrieve, reason, and act.
+
+The framework provides:
 
 - **Agents** — AI systems that receive instructions, use tools, and generate responses via an LLM
 - **Tools** — Python functions the agent can decide to call based on the user's query

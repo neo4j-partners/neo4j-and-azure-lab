@@ -2,6 +2,40 @@
 
 In this lab, you'll learn how to give agents **persistent memory** using the `neo4j-agent-memory` package with the Microsoft Agent Framework. Unlike the knowledge graph context providers in Lab 6 that retrieve from a static knowledge base, agent memory enables agents to remember conversations, learn user preferences, extract entities, and recall similar past interactions — all stored in Neo4j.
 
+## What is Neo4j Agent Memory?
+
+The notebooks in this lab use the [`neo4j-agent-memory`](https://github.com/neo4j-labs/agent-memory) package — a graph-native memory system that gives AI agents persistent, searchable memory stored in Neo4j. While the knowledge graph context providers in Lab 6 retrieve from a static knowledge base you built, agent memory is dynamic: it grows with every conversation as the agent learns user preferences, extracts entities, and records its own reasoning.
+
+### Three Memory Types
+
+**Short-Term Memory** stores conversation history as `Message` nodes with embeddings. This lets the agent semantically search past messages — not just replay them in order, but find the most relevant past exchanges for the current question. Messages are grouped into conversations by session, and entities are automatically extracted during ingestion.
+
+**Long-Term Memory** stores structured knowledge as entities, facts, and preferences. Entities (people, organizations, locations, etc.) are deduplicated using configurable strategies (exact, fuzzy, semantic, or composite matching). Facts are stored as Subject-Predicate-Object triples (e.g., "Apple → manufactures → iPhone"). Preferences capture user-specific information with category and context.
+
+**Reasoning Memory** captures traces of past agent behavior — what tasks were attempted, what tools were called, whether they succeeded or failed, and how long they took. When the agent encounters a similar task later, it can retrieve these traces to learn from its own experience.
+
+### Memory Context Provider
+
+The package provides its own `Neo4jContextProvider` (distinct from the one in Lab 6) that integrates with MAF:
+
+- **`before_run()`** retrieves context from all three memory types: recent conversation history, semantically relevant past messages, matching preferences, related entities, and similar reasoning traces
+- **`after_run()`** stores the new messages and automatically extracts entities from the conversation
+
+### Memory Tools
+
+Beyond automatic context injection, the package provides six callable tools via `create_memory_tools()` that give the agent explicit control over its memory:
+
+| Tool | Purpose |
+|------|---------|
+| `search_memory` | Search across all memory types (messages, entities, preferences) |
+| `remember_preference` | Save a user preference with category and context |
+| `recall_preferences` | Retrieve saved preferences by topic |
+| `search_knowledge` | Query the knowledge graph for entities by type |
+| `remember_fact` | Store a factual relationship as a Subject-Predicate-Object triple |
+| `find_similar_tasks` | Retrieve similar past reasoning traces to learn from experience |
+
+In Notebook 01, you'll use the **context provider** for automatic memory. In Notebook 02, you'll combine context providers with **memory tools** so the agent can both passively recall and actively manage its memory.
+
 ## Prerequisites
 
 Before starting, make sure you have:
