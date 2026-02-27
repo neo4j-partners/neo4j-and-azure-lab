@@ -5,7 +5,7 @@ This workshop demonstrates a Neo4j context provider with graph-enriched mode
 using the Microsoft Agent Framework. Combines vector search with graph traversal
 to provide company, product, and risk factor context.
 
-Run with: uv run python main.py solutions 15
+Run with: uv run python main.py solutions 16
 """
 
 import asyncio
@@ -26,14 +26,13 @@ from config import get_agent_config
 
 # Graph-enriched retrieval query
 RETRIEVAL_QUERY: Final[str] = """
-MATCH (node)-[:FROM_DOCUMENT]->(doc:Document)<-[:FILED]-(company:Company)
+OPTIONAL MATCH (company:Company)-[:FROM_CHUNK]->(node)
 OPTIONAL MATCH (company)-[:FACES_RISK]->(risk:RiskFactor)
-WITH node, score, company, doc,
+WITH node, score, company,
      collect(DISTINCT risk.name)[0..5] AS risks
-OPTIONAL MATCH (company)-[:MENTIONS]->(product:Product)
-WITH node, score, company, doc, risks,
+OPTIONAL MATCH (company)-[:OFFERS]->(product:Product)
+WITH node, score, company, risks,
      collect(DISTINCT product.name)[0..5] AS products
-WHERE score IS NOT NULL
 RETURN
     node.text AS text,
     score,
@@ -80,9 +79,9 @@ async def run_agent(query: str):
                 async with AzureAIClient(
                     project_endpoint=config.project_endpoint,
                     model_deployment_name=config.model_name,
-                    async_credential=credential,
+                    credential=credential,
                 ) as client:
-                    async with client.create_agent(
+                    agent = client.as_agent(
                         name="workshop-graph-enriched-agent",
                         instructions=(
                             "You are a helpful assistant that answers questions about companies "
@@ -95,15 +94,15 @@ async def run_agent(query: str):
                             "Be specific and reference the enriched graph data."
                         ),
                         context_providers=[provider],
-                    ) as agent:
-                        session = agent.create_session()
+                    )
+                    session = agent.create_session()
 
-                        print(f"User: {query}\n")
-                        print("Assistant: ", end="", flush=True)
+                    print(f"User: {query}\n")
+                    print("Assistant: ", end="", flush=True)
 
-                        response = await agent.run(query, session=session)
-                        print(response.text)
-                        print()
+                    response = await agent.run(query, session=session)
+                    print(response.text)
+                    print()
 
         await asyncio.sleep(0.1)
     finally:

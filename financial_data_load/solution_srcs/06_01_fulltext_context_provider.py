@@ -5,7 +5,7 @@ This workshop demonstrates a Neo4j context provider with fulltext search
 using the Microsoft Agent Framework. The context provider automatically
 injects knowledge graph context before each agent invocation.
 
-Run with: uv run python main.py solutions 13
+Run with: uv run python main.py solutions 14
 """
 
 import asyncio
@@ -26,7 +26,7 @@ async def run_agent(query: str):
         uri=neo4j_settings.uri,
         username=neo4j_settings.username,
         password=neo4j_settings.get_password(),
-        index_name=neo4j_settings.fulltext_index_name,
+        index_name="chunkText",
         index_type="fulltext",
         top_k=3,
         context_prompt=(
@@ -41,9 +41,9 @@ async def run_agent(query: str):
             async with AzureAIClient(
                 project_endpoint=config.project_endpoint,
                 model_deployment_name=config.model_name,
-                async_credential=credential,
+                credential=credential,
             ) as client:
-                async with client.create_agent(
+                agent = client.as_agent(
                     name="workshop-fulltext-agent",
                     instructions=(
                         "You are a helpful assistant that answers questions about companies "
@@ -51,15 +51,15 @@ async def run_agent(query: str):
                         "specific information from the context when available."
                     ),
                     context_providers=[provider],
-                ) as agent:
-                    session = agent.create_session()
+                )
+                session = agent.create_session()
 
-                    print(f"User: {query}\n")
-                    print("Assistant: ", end="", flush=True)
+                print(f"User: {query}\n")
+                print("Assistant: ", end="", flush=True)
 
-                    response = await agent.run(query, session=session)
-                    print(response.text)
-                    print()
+                response = await agent.run(query, session=session)
+                print(response.text)
+                print()
 
     await asyncio.sleep(0.1)
 

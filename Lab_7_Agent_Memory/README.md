@@ -8,6 +8,7 @@ Before starting, make sure you have:
 - Completed **Lab 0** (Azure sign-in)
 - Completed **Lab 1** (Neo4j Aura setup)
 - Completed **Lab 4** (Codespace setup with environment variables configured)
+- Completed **Lab 5** (Foundry Agents)
 - Completed **Lab 6** (Context Providers)
 
 ## Lab Overview

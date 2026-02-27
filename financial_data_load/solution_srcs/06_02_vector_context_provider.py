@@ -5,7 +5,7 @@ This workshop demonstrates a Neo4j context provider with vector (semantic)
 search using the Microsoft Agent Framework. The provider embeds queries and
 finds semantically similar content.
 
-Run with: uv run python main.py solutions 14
+Run with: uv run python main.py solutions 15
 """
 
 import asyncio
@@ -58,9 +58,9 @@ async def run_agent(query: str):
                 async with AzureAIClient(
                     project_endpoint=config.project_endpoint,
                     model_deployment_name=config.model_name,
-                    async_credential=credential,
+                    credential=credential,
                 ) as client:
-                    async with client.create_agent(
+                    agent = client.as_agent(
                         name="workshop-vector-agent",
                         instructions=(
                             "You are a helpful assistant that answers questions about companies "
@@ -68,15 +68,15 @@ async def run_agent(query: str):
                             "When the context contains relevant information, cite it in your response."
                         ),
                         context_providers=[provider],
-                    ) as agent:
-                        session = agent.create_session()
+                    )
+                    session = agent.create_session()
 
-                        print(f"User: {query}\n")
-                        print("Assistant: ", end="", flush=True)
+                    print(f"User: {query}\n")
+                    print("Assistant: ", end="", flush=True)
 
-                        response = await agent.run(query, session=session)
-                        print(response.text)
-                        print()
+                    response = await agent.run(query, session=session)
+                    print(response.text)
+                    print()
 
         await asyncio.sleep(0.1)
     finally:

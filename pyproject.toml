@@ -18,6 +18,8 @@ dependencies = [
     "nbstripout>=0.9.1",
     "agent-framework-core>=1.0.0rc2",
     "agent-framework-azure-ai>=1.0.0rc2",
+    "agent-framework-neo4j>=0.5.4",
+    "neo4j-agent-memory[microsoft-agent]>=0.0.4",
     "rapidfuzz>=3.0.0",
 ]
 

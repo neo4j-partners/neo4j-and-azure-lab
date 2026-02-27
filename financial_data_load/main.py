@@ -154,9 +154,9 @@ def cmd_samples(args):
 #   01_xx = Lab 8 (Building a Knowledge Graph)
 #   02_xx = Lab 10 (Advanced Retrievers)
 #   03_xx = Lab 5 + Lab 9 (Foundry Agents + Advanced Agents)
-#   04_xx = Lab 6 (Context Providers)
 #   05_xx = Lab 11 (Hybrid Search)
-#   06_xx = Lab 7 (Agent Memory)
+#   06_xx = Lab 6 (Context Providers)
+#   07_xx = Lab 7 (Agent Memory)
 SOLUTIONS = [
     ("solution_srcs.01_01_data_loading", "Data Loading Fundamentals", False, "main"),
     ("solution_srcs.01_02_embeddings", "Embeddings", True, "main"),
@@ -171,11 +171,11 @@ SOLUTIONS = [
     ("solution_srcs.03_03_text2cypher_agent", "Text2Cypher Agent", True, "run_agent"),
     ("solution_srcs.05_01_fulltext_search", "Fulltext Search", False, "main"),
     ("solution_srcs.05_02_hybrid_search", "Hybrid Search", False, "main"),
-    ("solution_srcs.04_01_fulltext_context_provider", "Fulltext Context Provider", True, "run_agent"),
-    ("solution_srcs.04_02_vector_context_provider", "Vector Context Provider", True, "run_agent"),
-    ("solution_srcs.04_03_graph_enriched_provider", "Graph-Enriched Provider", True, "run_agent"),
-    ("solution_srcs.06_01_memory_context_provider", "Memory Context Provider", True, "run_agent"),
-    ("solution_srcs.06_02_memory_tools_agent", "Memory Tools Agent", True, "run_agent"),
+    ("solution_srcs.06_01_fulltext_context_provider", "Fulltext Context Provider", True, "run_agent"),
+    ("solution_srcs.06_02_vector_context_provider", "Vector Context Provider", True, "run_agent"),
+    ("solution_srcs.06_03_graph_enriched_provider", "Graph-Enriched Provider", True, "run_agent"),
+    ("solution_srcs.07_01_memory_context_provider", "Memory Context Provider", True, "run_agent"),
+    ("solution_srcs.07_02_memory_tools_agent", "Memory Tools Agent", True, "run_agent"),
 ]
 
 AGENT_QUERIES = {
@@ -183,11 +183,11 @@ AGENT_QUERIES = {
     "solution_srcs.05_02_context_provider": "Hello, what is the square root of 9?",
     "solution_srcs.03_02_vector_graph_agent": "What risk factors are mentioned in Apple's financial documents?",
     "solution_srcs.03_03_text2cypher_agent": "What stock has Microsoft issued?",
-    "solution_srcs.04_01_fulltext_context_provider": "What products does Microsoft offer?",
-    "solution_srcs.04_02_vector_context_provider": "What are the main business activities of tech companies?",
-    "solution_srcs.04_03_graph_enriched_provider": "What are Apple's main products and what risks does the company face?",
-    "solution_srcs.06_01_memory_context_provider": "Hi! I'm interested in learning about Apple's products.",
-    "solution_srcs.06_02_memory_tools_agent": "I prefer concise technical explanations over high-level overviews.",
+    "solution_srcs.06_01_fulltext_context_provider": "What products does Microsoft offer?",
+    "solution_srcs.06_02_vector_context_provider": "What are the main business activities of tech companies?",
+    "solution_srcs.06_03_graph_enriched_provider": "What are Apple's main products and what risks does the company face?",
+    "solution_srcs.07_01_memory_context_provider": "Hi! I'm interested in learning about Apple's products.",
+    "solution_srcs.07_02_memory_tools_agent": "I prefer concise technical explanations over high-level overviews.",
 }
 
 

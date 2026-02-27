@@ -5,7 +5,7 @@ This workshop demonstrates Neo4j Agent Memory as a MAF context provider.
 The memory system provides persistent conversation history, entity extraction,
 and preference learning backed by Neo4j.
 
-Run with: uv run python main.py solutions 16
+Run with: uv run python main.py solutions 17
 """
 
 import asyncio
@@ -50,9 +50,9 @@ async def run_agent(query: str):
             async with AzureAIClient(
                 project_endpoint=config.project_endpoint,
                 model_deployment_name=config.model_name,
-                async_credential=credential,
+                credential=credential,
             ) as client:
-                async with client.create_agent(
+                agent = client.as_agent(
                     name="workshop-memory-agent",
                     instructions=(
                         "You are a helpful assistant with persistent memory. "
@@ -60,15 +60,15 @@ async def run_agent(query: str):
                         "When you notice the user expressing a preference, acknowledge it."
                     ),
                     context_providers=[memory.context_provider],
-                ) as agent:
-                    session = agent.create_session()
+                )
+                session = agent.create_session()
 
-                    print(f"User: {query}\n")
-                    print("Assistant: ", end="", flush=True)
+                print(f"User: {query}\n")
+                print("Assistant: ", end="", flush=True)
 
-                    response = await agent.run(query, session=session)
-                    print(response.text)
-                    print()
+                response = await agent.run(query, session=session)
+                print(response.text)
+                print()
 
     await asyncio.sleep(0.1)
 

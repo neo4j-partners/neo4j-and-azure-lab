@@ -5,7 +5,7 @@ This workshop demonstrates an agent with explicit memory tools alongside
 the context provider. The agent can actively search, save, and recall
 information using callable FunctionTool instances.
 
-Run with: uv run python main.py solutions 17
+Run with: uv run python main.py solutions 18
 """
 
 import asyncio
@@ -52,9 +52,9 @@ async def run_agent(query: str):
             async with AzureAIClient(
                 project_endpoint=config.project_endpoint,
                 model_deployment_name=config.model_name,
-                async_credential=credential,
+                credential=credential,
             ) as client:
-                async with client.create_agent(
+                agent = client.as_agent(
                     name="workshop-memory-tools-agent",
                     instructions=(
                         "You are a helpful assistant with persistent memory. You have access to "
@@ -68,15 +68,15 @@ async def run_agent(query: str):
                     ),
                     tools=tools,
                     context_providers=[memory.context_provider],
-                ) as agent:
-                    print(f"User: {query}\n")
-                    print("Assistant: ", end="", flush=True)
+                )
+                print(f"User: {query}\n")
+                print("Assistant: ", end="", flush=True)
 
-                    async for update in agent.run_stream(query):
-                        if update.text:
-                            print(update.text, end="", flush=True)
+                async for update in agent.run(query, stream=True):
+                    if update.text:
+                        print(update.text, end="", flush=True)
 
-                    print("\n")
+                print("\n")
 
     await asyncio.sleep(0.1)
 

@@ -99,9 +99,9 @@ async def run_agent(query: str):
             async with AzureAIClient(
                 project_endpoint=config.project_endpoint,
                 model_deployment_name=config.model_name,
-                async_credential=credential,
+                credential=credential,
             ) as client:
-                async with client.create_agent(
+                agent = client.as_agent(
                     name="workshop-vector-graph-agent",
                     instructions=(
                         "You are a helpful assistant that can answer questions about "
@@ -109,15 +109,15 @@ async def run_agent(query: str):
                         "the schema and search for relevant documents."
                     ),
                     tools=tools,
-                ) as agent:
-                    print(f"User: {query}\n")
-                    print("Assistant: ", end="", flush=True)
+                )
+                print(f"User: {query}\n")
+                print("Assistant: ", end="", flush=True)
 
-                    async for update in agent.run_stream(query):
-                        if update.text:
-                            print(update.text, end="", flush=True)
+                async for update in agent.run(query, stream=True):
+                    if update.text:
+                        print(update.text, end="", flush=True)
 
-                    print("\n")
+                print("\n")
 
     # Allow background tasks to complete before event loop closes
     await asyncio.sleep(0.1)

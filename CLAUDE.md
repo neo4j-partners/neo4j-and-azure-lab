@@ -62,13 +62,13 @@ uv pip install --force-reinstall ~/projects/neo4j-graphrag-python
 3. **Text2Cypher** - Natural language to Cypher query generation
 4. **Hybrid Search** - Combined keyword (fulltext) and semantic (vector) search
 
-### Context Providers (in `financial_data_load/solution_srcs/04_*.py`)
+### Context Providers (in `financial_data_load/solution_srcs/06_*.py`)
 Uses `agent-framework-neo4j` package for automatic context injection:
 - Fulltext context provider (keyword search)
 - Vector context provider (semantic search)
 - Graph-enriched provider (vector + Cypher traversal)
 
-### Agent Memory (in `financial_data_load/solution_srcs/06_*.py`)
+### Agent Memory (in `financial_data_load/solution_srcs/07_*.py`)
 Uses `neo4j-agent-memory` package for persistent agent memory:
 - Memory context provider (short-term, long-term, reasoning memory)
 - Memory tools agent (explicit search, save, recall operations)

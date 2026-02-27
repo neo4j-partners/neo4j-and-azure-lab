@@ -149,15 +149,16 @@ GraphRAG patterns using neo4j-graphrag with Azure AI:
 | 6 | `02_02_vector_cypher_retriever.py` | Vector search + custom Cypher |
 | 7 | `02_03_text2cypher_retriever.py` | Natural language to Cypher |
 
-### Agents (03_xx)
+### Agents (03_xx / 05_xx)
 
 Microsoft Agent Framework with Azure AI Foundry:
 
 | # | Solution | Description |
 |---|----------|-------------|
-| 8 | `03_01_simple_agent.py` | Basic agent with schema tool |
-| 9 | `03_02_vector_graph_agent.py` | Agent with vector search + graph traversal |
-| 10 | `03_03_text2cypher_agent.py` | Multi-tool agent with Text2Cypher |
+| 8 | `05_01_simple_agent.py` | Basic agent with schema tool |
+| 9 | `05_02_context_provider.py` | Context provider intro (user info memory) |
+| 10 | `03_02_vector_graph_agent.py` | Agent with vector search + graph traversal |
+| 11 | `03_03_text2cypher_agent.py` | Multi-tool agent with Text2Cypher |
 
 ### Search (05_xx)
 
@@ -165,14 +166,35 @@ Advanced search patterns:
 
 | # | Solution | Description |
 |---|----------|-------------|
-| 11 | `05_01_fulltext_search.py` | Full-text search capabilities |
-| 12 | `05_02_hybrid_search.py` | Hybrid vector + keyword search |
+| 12 | `05_01_fulltext_search.py` | Full-text search capabilities |
+| 13 | `05_02_hybrid_search.py` | Hybrid vector + keyword search |
+
+### Context Providers (04_xx)
+
+Neo4j context providers using agent-framework-neo4j:
+
+| # | Solution | Description |
+|---|----------|-------------|
+| 14 | `06_01_fulltext_context_provider.py` | Fulltext search context provider |
+| 15 | `06_02_vector_context_provider.py` | Vector (semantic) search context provider |
+| 16 | `06_03_graph_enriched_provider.py` | Vector search + graph traversal context provider |
+
+### Agent Memory (06_xx)
+
+Persistent agent memory using neo4j-agent-memory:
+
+| # | Solution | Description |
+|---|----------|-------------|
+| 17 | `07_01_memory_context_provider.py` | Memory as a context provider |
+| 18 | `07_02_memory_tools_agent.py` | Agent with explicit memory tools |
 
 ## Architecture
 
 - **Azure AI Foundry** — Model hosting (GPT-5.2, text-embedding-ada-002)
 - **Microsoft Agent Framework** — Agent creation and tool management
+- **agent-framework-neo4j** — Neo4j context providers for automatic context injection
 - **neo4j-graphrag-python** — Graph retrieval capabilities
+- **neo4j-agent-memory** — Persistent agent memory backed by Neo4j
 - **Neo4j** — Graph database with vector search
 
 ## File Structure
@@ -206,14 +228,21 @@ financial_data_load/
     ├── 01_02_embeddings.py
     ├── 01_03_entity_extraction.py
     ├── 01_04_full_dataset_queries.py
+    ├── 01_test_full_data_load.py  # Graph structure validation tests
     ├── 02_01_vector_retriever.py
     ├── 02_02_vector_cypher_retriever.py
     ├── 02_03_text2cypher_retriever.py
-    ├── 03_01_simple_agent.py
     ├── 03_02_vector_graph_agent.py
     ├── 03_03_text2cypher_agent.py
+    ├── 06_01_fulltext_context_provider.py
+    ├── 06_02_vector_context_provider.py
+    ├── 06_03_graph_enriched_provider.py
+    ├── 05_01_simple_agent.py
     ├── 05_01_fulltext_search.py
-    └── 05_02_hybrid_search.py
+    ├── 05_02_context_provider.py
+    ├── 05_02_hybrid_search.py
+    ├── 07_01_memory_context_provider.py
+    └── 07_02_memory_tools_agent.py
 ```
 
 ## Environment Variables
