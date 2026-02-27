@@ -6,7 +6,7 @@ vector search, and natural language to Cypher queries using the Microsoft
 Agent Framework with Microsoft Foundry (V2 SDK - azure-ai-projects) and
 neo4j-graphrag-python.
 
-Run with: uv run python solutions/02_03_text2cypher_agent.py
+Run with: uv run python main.py solutions 11
 """
 
 import asyncio
@@ -19,10 +19,9 @@ from neo4j_graphrag.schema import get_schema
 from pydantic import Field
 
 from agent_framework.azure import AzureAIClient
-from azure.identity import DefaultAzureCredential
 from azure.identity.aio import AzureCliCredential
 
-from config import get_neo4j_driver, get_agent_config, get_embedder
+from config import get_neo4j_driver, get_agent_config, get_embedder, _get_azure_token
 
 # Retrieval query for vector search with graph context
 # Path: (Company)-[:FROM_CHUNK]->(Chunk) - companies mentioned in chunks
@@ -80,14 +79,19 @@ def create_tools(driver: Driver) -> list:
     config = get_agent_config()
     embedder = get_embedder()
 
-    # LLM for Cypher generation uses same Microsoft Foundry endpoint
-    credential = DefaultAzureCredential()
-    token = credential.get_token("https://cognitiveservices.azure.com/.default")
-    cypher_llm = OpenAILLM(
-        model_name=config.model_name,
-        base_url=config.inference_endpoint,
-        api_key=token.token,
-    )
+    # LLM for Cypher generation
+    if config.use_openai:
+        cypher_llm = OpenAILLM(
+            model_name=config.model_name,
+            api_key=config.openai_api_key,
+        )
+    else:
+        token = _get_azure_token()
+        cypher_llm = OpenAILLM(
+            model_name=config.model_name,
+            base_url=config.inference_endpoint,
+            api_key=token,
+        )
 
     vector_retriever = VectorCypherRetriever(
         driver=driver,

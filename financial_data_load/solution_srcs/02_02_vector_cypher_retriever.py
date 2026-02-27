@@ -4,7 +4,7 @@ Vector Cypher Retriever Demo
 This workshop demonstrates combining vector similarity search with custom
 Cypher queries for enriched graph context using VectorCypherRetriever.
 
-Run with: uv run python solutions/01_02_vector_cypher_retriever.py
+Run with: uv run python main.py solutions 6
 """
 
 from typing import Final

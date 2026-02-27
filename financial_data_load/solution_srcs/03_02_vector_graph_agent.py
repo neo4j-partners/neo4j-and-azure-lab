@@ -5,7 +5,7 @@ This workshop demonstrates an agent with vector search that retrieves documents
 and traverses the graph to find related context using the Microsoft Agent Framework
 with Microsoft Foundry (V2 SDK - azure-ai-projects) and neo4j-graphrag-python.
 
-Run with: uv run python solutions/02_02_vector_graph_agent.py
+Run with: uv run python main.py solutions 10
 """
 
 import asyncio

@@ -21,6 +21,10 @@ uv sync --prerelease=allow
 echo "Registering Jupyter kernel..."
 uv run python -m ipykernel install --user --name neo4j-workshop --display-name "Neo4j Workshop"
 
+# Set up nbstripout to strip notebook outputs before committing
+echo "Setting up nbstripout..."
+uv run nbstripout --install
+
 echo "=========================================="
 echo "Post-create setup complete!"
 echo "=========================================="

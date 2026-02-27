@@ -4,7 +4,7 @@ Embeddings and Vector Search
 This solution demonstrates embedding generation and vector similarity
 search using Neo4j and Microsoft Foundry.
 
-Run with: uv run python solutions/01_02_embeddings.py
+Run with: uv run python main.py solutions 2
 """
 
 import asyncio

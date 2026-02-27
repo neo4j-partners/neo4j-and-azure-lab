@@ -277,7 +277,7 @@ def cmd_solutions(args):
         try:
             _run_solution(int(choice))
         except ValueError:
-            print(f"Invalid: {choice}. Use 1-17 or A.")
+            print(f"Invalid: {choice}. Use 1-{len(SOLUTIONS)} or A.")
         return
 
     # Interactive menu

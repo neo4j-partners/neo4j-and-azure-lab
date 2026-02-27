@@ -5,7 +5,7 @@ This script demonstrates various queries to explore the full Neo4j knowledge gra
 containing SEC 10-K filings from multiple companies with extracted entities and relationships.
 
 Prerequisites:
-- Full dataset must be loaded (use full_data_load.py script)
+- Full dataset must be loaded (run: uv run python main.py load --clear)
 - Neo4j connection configured in config.py
 """
 

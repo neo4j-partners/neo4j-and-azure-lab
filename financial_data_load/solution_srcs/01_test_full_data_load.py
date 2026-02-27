@@ -8,7 +8,7 @@ This script tests that:
 4. Embeddings and properties are correctly stored
 5. No data was lost during loading (validates completeness)
 
-Run with: cd financial_data_load && uv run python -m src.01_test_full_data_load
+Run with: cd financial_data_load && uv run python -m solution_srcs.01_test_full_data_load
 
 Options:
   --graph-only    Only run graph structure validation (skip MERGE unit tests)

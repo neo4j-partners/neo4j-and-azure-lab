@@ -22,7 +22,7 @@ References:
 - https://neo4j.com/blog/developer/hybrid-retrieval-graphrag-python-package/
 
 Usage:
-    uv run python solutions/05_02_hybrid_search.py
+    uv run python main.py solutions 13
 """
 
 import neo4j
@@ -236,7 +236,7 @@ def main() -> None:
             )
             if not result.single():
                 print(f"\nError: Fulltext index '{FULLTEXT_INDEX}' not found.")
-                print("Run: uv run python full_data_load.py to create indexes.")
+                print("Run: uv run python main.py load --clear to create indexes.")
                 return
 
             # Check vector index
@@ -246,7 +246,7 @@ def main() -> None:
             )
             if not result.single():
                 print(f"\nError: Vector index '{VECTOR_INDEX}' not found.")
-                print("Run: uv run python full_data_load.py to create indexes.")
+                print("Run: uv run python main.py load --clear to create indexes.")
                 return
 
         # Create HybridRetriever

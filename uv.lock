@@ -2,6 +2,9 @@ version = 1
 revision = 3
 requires-python = "==3.12.*"
 
+[options]
+prerelease-mode = "allow"
+
 [[package]]
 name = "a2a-sdk"
 version = "0.3.24"
@@ -1698,6 +1701,7 @@ dependencies = [
     { name = "neo4j" },
     { name = "neo4j-agent-memory", extra = ["microsoft-agent"] },
     { name = "neo4j-graphrag" },
+    { name = "nest-asyncio" },
     { name = "openai" },
     { name = "pydantic-settings" },
     { name = "python-dotenv" },
@@ -1718,6 +1722,7 @@ requires-dist = [
     { name = "neo4j", specifier = ">=6.1.0" },
     { name = "neo4j-agent-memory", extras = ["microsoft-agent"], specifier = ">=0.0.4" },
     { name = "neo4j-graphrag", specifier = ">=1.13.1" },
+    { name = "nest-asyncio", specifier = ">=1.6.0" },
     { name = "openai", specifier = ">=2.24.0" },
     { name = "pydantic-settings", specifier = ">=2.13.1" },
     { name = "python-dotenv" },

@@ -21,6 +21,7 @@ dependencies = [
     "agent-framework-neo4j>=0.5.4",
     "neo4j-agent-memory[microsoft-agent]>=0.0.4",
     "rapidfuzz>=3.0.0",
+    "nest-asyncio>=1.6.0",
 ]
 
 [tool.uv]

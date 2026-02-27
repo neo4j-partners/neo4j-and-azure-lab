@@ -4,7 +4,7 @@ Vector Retriever Demo
 This workshop demonstrates basic semantic search using VectorRetriever
 and GraphRAG from neo4j-graphrag-python.
 
-Run with: uv run python solutions/02_01_vector_retriever.py
+Run with: uv run python main.py solutions 5
 """
 
 from neo4j_graphrag.generation import GraphRAG

@@ -5,7 +5,7 @@ This workshop demonstrates context providers using the Microsoft Agent Framework
 A UserInfoMemory context provider automatically extracts and remembers user info
 (name, age) across conversation turns using structured LLM output.
 
-Run with: uv run python main.py solutions <N>
+Run with: uv run python main.py solutions 9
 """
 
 import asyncio

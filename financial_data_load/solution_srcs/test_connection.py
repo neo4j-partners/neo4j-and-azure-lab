@@ -1,7 +1,7 @@
 """
 Test Neo4j connection and schema retrieval.
 
-Run with: uv run python solutions/test_connection.py
+Run with: uv run python main.py test
 """
 
 from neo4j_graphrag.schema import get_schema

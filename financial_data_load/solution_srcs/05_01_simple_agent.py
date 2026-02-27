@@ -5,7 +5,7 @@ This workshop demonstrates a basic agent using the Microsoft Agent Framework
 with Microsoft Foundry (V2 SDK - azure-ai-projects) and neo4j-graphrag-python
 for schema retrieval.
 
-Run with: uv run python solutions/03_01_simple_agent.py
+Run with: uv run python main.py solutions 8
 """
 
 import asyncio

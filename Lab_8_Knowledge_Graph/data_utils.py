@@ -12,8 +12,8 @@ from neo4j_graphrag.llm import OpenAILLM
 from pydantic import Field, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# Load configuration from project root
-_config_file = Path(__file__).parent.parent / "CONFIG.txt"
+# Load configuration from project root .env
+_config_file = Path(__file__).parent.parent / ".env"
 load_dotenv(_config_file)
 
 
@@ -37,7 +37,7 @@ class AgentConfig(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="", extra="ignore")
 
     project_endpoint: str = Field(validation_alias="AZURE_AI_PROJECT_ENDPOINT")
-    model_name: str = Field(default="gpt-5.2", validation_alias="AZURE_AI_MODEL_NAME")
+    model_name: str = Field(default="gpt-4o", validation_alias="AZURE_AI_MODEL_NAME")
     embedding_name: str = Field(
         default="text-embedding-ada-002",
         validation_alias="AZURE_AI_EMBEDDING_NAME",
@@ -200,5 +200,17 @@ def split_text(text: str, chunk_size: int = 500, chunk_overlap: int = 50) -> lis
         chunk_overlap=chunk_overlap,
         approximate=True
     )
-    result = asyncio.run(splitter.run(text))
+    # Use nest_asyncio or get_event_loop to handle Jupyter's running event loop
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = None
+
+    if loop and loop.is_running():
+        # Inside Jupyter or another async context — use nest_asyncio
+        import nest_asyncio
+        nest_asyncio.apply()
+        result = asyncio.run(splitter.run(text))
+    else:
+        result = asyncio.run(splitter.run(text))
     return [chunk.text for chunk in result.chunks]

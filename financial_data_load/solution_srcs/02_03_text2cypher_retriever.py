@@ -4,7 +4,7 @@ Text2Cypher Retriever Demo
 This workshop demonstrates converting natural language queries to Cypher
 using Text2CypherRetriever from neo4j-graphrag-python.
 
-Run with: uv run python solutions/01_03_text2cypher_retriever.py
+Run with: uv run python main.py solutions 7
 """
 
 from typing import Final

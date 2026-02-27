@@ -4,7 +4,7 @@ Data Loading Fundamentals
 This solution demonstrates basic data loading into Neo4j,
 creating Document and Chunk nodes with relationships.
 
-Run with: uv run python solutions/01_01_data_loading.py
+Run with: uv run python main.py solutions 1
 """
 
 from config import get_neo4j_driver

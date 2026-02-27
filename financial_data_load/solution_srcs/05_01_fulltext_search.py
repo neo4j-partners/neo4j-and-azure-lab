@@ -5,15 +5,15 @@ Demonstrates Neo4j fulltext search capabilities for keyword-based
 entity search across Company, Product, and RiskFactor names.
 
 Usage:
-    uv run python solutions/05_01_fulltext_search.py
+    uv run python main.py solutions 12
 """
 
-from neo4j import GraphDatabase
+from neo4j import Driver
 
 from config import get_neo4j_driver
 
 
-def basic_search(driver: GraphDatabase.driver, term: str) -> None:
+def basic_search(driver: Driver, term: str) -> None:
     """Basic keyword search."""
     print(f"\n=== Basic Search: '{term}' ===")
     with driver.session() as session:
@@ -30,7 +30,7 @@ def basic_search(driver: GraphDatabase.driver, term: str) -> None:
             print(f"  [{record['labels'][0]}] {record['name']} (score: {record['score']:.4f})")
 
 
-def fuzzy_search(driver: GraphDatabase.driver, term: str) -> None:
+def fuzzy_search(driver: Driver, term: str) -> None:
     """Fuzzy search with typo tolerance."""
     print(f"\n=== Fuzzy Search: '{term}' ===")
     with driver.session() as session:
@@ -47,7 +47,7 @@ def fuzzy_search(driver: GraphDatabase.driver, term: str) -> None:
             print(f"  [{record['labels'][0]}] {record['name']} (score: {record['score']:.4f})")
 
 
-def wildcard_search(driver: GraphDatabase.driver, term: str) -> None:
+def wildcard_search(driver: Driver, term: str) -> None:
     """Wildcard prefix search."""
     print(f"\n=== Wildcard Search: '{term}' ===")
     with driver.session() as session:
@@ -64,7 +64,7 @@ def wildcard_search(driver: GraphDatabase.driver, term: str) -> None:
             print(f"  [{record['labels'][0]}] {record['name']} (score: {record['score']:.4f})")
 
 
-def boolean_search(driver: GraphDatabase.driver, term: str) -> None:
+def boolean_search(driver: Driver, term: str) -> None:
     """Boolean operator search."""
     print(f"\n=== Boolean Search: '{term}' ===")
     with driver.session() as session:
@@ -81,7 +81,7 @@ def boolean_search(driver: GraphDatabase.driver, term: str) -> None:
             print(f"  [{record['labels'][0]}] {record['name']} (score: {record['score']:.4f})")
 
 
-def search_with_graph_traversal(driver: GraphDatabase.driver, company_name: str) -> None:
+def search_with_graph_traversal(driver: Driver, company_name: str) -> None:
     """Search company and traverse to related entities."""
     print(f"\n=== Graph Traversal: '{company_name}' ===")
     with driver.session() as session:
@@ -119,7 +119,7 @@ def search_with_graph_traversal(driver: GraphDatabase.driver, company_name: str)
             print(f"No company found for '{company_name}'")
 
 
-def hybrid_search(driver: GraphDatabase.driver, keyword: str) -> None:
+def hybrid_search(driver: Driver, keyword: str) -> None:
     """Hybrid search combining fulltext with graph patterns."""
     print(f"\n=== Hybrid Search: '{keyword}' ===")
     with driver.session() as session:
@@ -162,7 +162,7 @@ def main() -> None:
             )
             if not result.single():
                 print("\nError: Fulltext index 'search_entities' not found.")
-                print("Run: uv run python full_data_load.py")
+                print("Run: uv run python main.py load --clear")
                 return
 
         # Run examples

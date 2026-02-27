@@ -4,7 +4,7 @@ Entity Extraction Basics
 This solution demonstrates entity extraction using SimpleKGPipeline
 to build a knowledge graph from text.
 
-Run with: uv run python solutions/01_03_entity_extraction.py
+Run with: uv run python main.py solutions 3
 """
 
 import asyncio
