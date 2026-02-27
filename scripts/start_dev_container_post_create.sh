@@ -19,7 +19,7 @@ uv sync --prerelease=allow
 
 # Register the Jupyter kernel
 echo "Registering Jupyter kernel..."
-uv run python -m ipykernel install --user --name neo4j-workshop --display-name "Neo4j Workshop"
+uv run python -m ipykernel install --user --name neo4j-azure-ai-workshop --display-name "Neo4j Azure AI Workshop"
 
 # Set up nbstripout to strip notebook outputs before committing
 echo "Setting up nbstripout..."
