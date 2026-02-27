@@ -24,6 +24,8 @@ import time
 from pathlib import Path
 
 # Add solution_srcs to path so solution files can import their config module.
+# shared/ is added after solution_srcs/ so solution_srcs/config.py takes priority.
+sys.path.insert(0, str(Path(__file__).parent.parent / "shared"))
 sys.path.insert(0, str(Path(__file__).parent / "solution_srcs"))
 
 # Data directory -- relative to this script.

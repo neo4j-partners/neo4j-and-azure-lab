@@ -42,7 +42,7 @@ Files to update: same as Option A, at the point where `get_schema()` is called.
 
 ---
 
-## 2. Memory Embedder Requires OPENAI_API_KEY
+## 2. Memory Embedder Requires OPENAI_API_KEY — FIXED
 
 **Affects:** Solution 17 (`07_01_memory_context_provider.py`), Solution 18 (`07_02_memory_tools_agent.py`), Lab_7 notebooks
 
@@ -51,71 +51,11 @@ Files to update: same as Option A, at the point where `get_schema()` is called.
 Error saving messages to memory: The api_key client option must be set either by passing api_key to the client or by setting the OPENAI_API_KEY environment variable
 ```
 
-The agent still works and responds correctly, but messages are not embedded/stored in memory for future retrieval.
+**Root cause:** `neo4j-agent-memory` defaults to OpenAI's embedding API. This workshop uses Azure AI Foundry, not OpenAI directly.
 
-**Root cause:** `neo4j-agent-memory` defaults to OpenAI's embedding API (`text-embedding-3-small`). This workshop uses Azure AI Foundry, not OpenAI directly, so there is no `OPENAI_API_KEY` in the environment.
+**Fix applied:** Created `shared/azure_embedder.py` with `AzureFoundryEmbedder` implementing `BaseEmbedder`. Uses `AsyncOpenAI` pointed at the Azure AI Foundry inference endpoint with Azure CLI token auth. A `get_memory_embedder()` factory returns the configured embedder (or `None` for direct OpenAI setups).
 
-**Fix: Create a custom Azure AI embedder**
-
-`MemoryClient` accepts a custom `embedder` parameter. Implement `BaseEmbedder` from `neo4j_agent_memory.embeddings.base` using the Azure AI Foundry inference endpoint:
-
-```python
-from neo4j_agent_memory.embeddings.base import BaseEmbedder
-from azure.identity import DefaultAzureCredential
-from openai import AsyncAzureOpenAI  # or use httpx directly
-
-
-class AzureFoundryEmbedder(BaseEmbedder):
-    """Embedder using Azure AI Foundry inference endpoint."""
-
-    def __init__(self, endpoint: str, model: str = "text-embedding-ada-002", dimensions: int = 1536):
-        self._endpoint = endpoint
-        self._model = model
-        self._dimensions = dimensions
-        # Get token from Azure CLI credential
-        credential = DefaultAzureCredential()
-        token = credential.get_token("https://cognitiveservices.azure.com/.default")
-        self._api_key = token.token
-
-    @property
-    def dimensions(self) -> int:
-        return self._dimensions
-
-    async def embed(self, text: str) -> list[float]:
-        # Use the OpenAI-compatible endpoint at {inference_endpoint}
-        import httpx
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                f"{self._endpoint}/embeddings",
-                headers={"Authorization": f"Bearer {self._api_key}"},
-                json={"input": text, "model": self._model},
-            )
-            response.raise_for_status()
-            return response.json()["data"][0]["embedding"]
-```
-
-Then pass it to `MemoryClient`:
-
-```python
-from solution_srcs.config import get_agent_config
-
-config = get_agent_config()
-embedder = AzureFoundryEmbedder(
-    endpoint=config.inference_endpoint,
-    model=config.embedding_name,
-)
-
-async with MemoryClient(settings, embedder=embedder) as memory_client:
-    ...
-```
-
-Files to update:
-- `solution_srcs/07_01_memory_context_provider.py`
-- `solution_srcs/07_02_memory_tools_agent.py`
-- `Lab_7_Agent_Memory/01_memory_context_provider.ipynb`
-- `Lab_7_Agent_Memory/02_memory_tools_agent.ipynb`
-
-Could also add the `AzureFoundryEmbedder` class to `solution_srcs/config.py` for reuse.
+All memory solution files and Lab_7 notebooks now pass `embedder=get_memory_embedder()` to `MemoryClient`.
 
 **Note:** The Azure CLI token expires after ~1 hour. For long-running sessions, the embedder would need token refresh logic. For workshop demos this is fine.
 

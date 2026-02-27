@@ -21,6 +21,7 @@ from neo4j_agent_memory.integrations.microsoft_agent import (
     create_memory_tools,
 )
 
+from azure_embedder import get_memory_embedder
 from config import get_agent_config, Neo4jConfig
 
 
@@ -37,7 +38,7 @@ async def run_agent(query: str):
         },
     )
 
-    async with MemoryClient(settings) as memory_client:
+    async with MemoryClient(settings, embedder=get_memory_embedder()) as memory_client:
         memory = Neo4jMicrosoftMemory.from_memory_client(
             memory_client=memory_client,
             session_id="workshop-tools-demo",
