@@ -1,6 +1,6 @@
-# Lab 8 - Hybrid Search
+# Lab 11 - Hybrid Search
 
-> **Advanced Lab** - This lab builds on the core workshop (Labs 4-6) with advanced search techniques.
+> **Advanced Lab** - This lab builds on the core workshop (Labs 4-9) with advanced search techniques.
 
 In this lab, you'll learn how to combine fulltext (keyword) search with vector (semantic) search for improved retrieval accuracy. Hybrid search gives you the precision of keyword matching with the semantic understanding of vector search.
 
@@ -10,7 +10,7 @@ Before starting, make sure you have:
 - Completed **Lab 0** (Azure sign-in)
 - Completed **Lab 1** (Neo4j Aura setup)
 - Completed **Lab 4** (Codespace setup with environment variables configured)
-- Completed **Lab 5** (Knowledge graph built with embeddings)
+- Completed **Lab 8** (Knowledge graph built with embeddings)
 
 ## Lab Overview
 
@@ -76,12 +76,15 @@ Congratulations on completing all the labs! You have learned:
 - Aura Agents
 - Microsoft Foundry Agents
 
-**Part 2 - Core Labs (Labs 4-6):**
+**Part 2 - Core Labs (Labs 4-9):**
 - Codespace setup and environment configuration
+- Building a simple Foundry Agent
+- MAF context providers for automatic knowledge retrieval
+- Agent memory with Neo4j Agent Memory
 - Building knowledge graphs with embeddings
-- Creating intelligent Foundry Agents with graph tools
+- Creating advanced agents with graph tools
 
-**Part 2 - Advanced Labs (Labs 7-8):**
+**Part 3 - Advanced Labs (Labs 10-11):**
 - Text2Cypher and entity extraction for advanced retrieval
 - Hybrid search combining keyword and semantic matching
 

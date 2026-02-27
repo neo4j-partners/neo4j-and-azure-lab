@@ -1,6 +1,6 @@
-# Lab 6 - Foundry Agents
+# Lab 9 - Advanced Agents
 
-In this lab, you'll learn how to build intelligent agents using Microsoft Foundry that use your Neo4j knowledge graph as a tool. You'll start with a simple agent that can explore the graph schema, then progressively add more sophisticated tools including vector search with graph traversal and natural language to Cypher query generation.
+In this lab, you'll build increasingly capable agents using Microsoft Foundry that use your Neo4j knowledge graph as a tool. You'll add sophisticated tools including vector search with graph traversal and natural language to Cypher query generation.
 
 ## Prerequisites
 
@@ -8,18 +8,11 @@ Before starting, make sure you have:
 - Completed **Lab 0** (Azure sign-in)
 - Completed **Lab 1** (Neo4j Aura setup)
 - Completed **Lab 4** (Codespace setup with environment variables configured)
-- Completed **Lab 5** (Knowledge graph built with embeddings)
+- Completed **Lab 8** (Knowledge graph built with embeddings)
 
 ## Lab Overview
 
-This lab consists of three notebooks that build increasingly capable agents:
-
-### 01_simple_agent.ipynb - Simple Schema Agent
-Build your first agent using the Microsoft Agent Framework:
-- Connect to Microsoft Foundry using `AzureAIClient`
-- Define tools as simple Python functions with docstrings
-- Create an agent that can retrieve and explain the graph schema
-- Stream agent responses in real-time
+This lab consists of two notebooks that build increasingly capable agents:
 
 ### 02_vector_graph_agent.ipynb - Vector + Graph Agent
 Add semantic search capabilities with graph context:
@@ -37,7 +30,7 @@ Build a powerful multi-tool agent:
 
 ## Getting Started
 
-1. Open the first notebook: `01_simple_agent.ipynb`
+1. Open the first notebook: `02_vector_graph_agent.ipynb`
 2. Work through each notebook in order
 3. Each notebook adds new tools to the agent
 
@@ -52,10 +45,10 @@ uv run setup_env.py
 Then run the workshop menu:
 
 ```bash
-uv run new-workshops/main.py
+cd financial_data_load && uv run python main.py solutions
 ```
 
-Menu items 8, 9, and 10 correspond to notebooks 1, 2, and 3 respectively.
+Menu items 9 and 10 correspond to notebooks 2 and 3 respectively.
 
 ## Key Concepts
 
@@ -90,11 +83,14 @@ Menu items 8, 9, and 10 correspond to notebooks 1, 2, and 3 respectively.
 
 ## Next Steps
 
-**Congratulations!** You have completed the core workshop (Labs 4-6). You now know how to:
+**Congratulations!** You have completed the core workshop (Labs 4-9). You now know how to:
+- Build a simple agent with Microsoft Foundry
+- Use context providers for automatic knowledge retrieval
+- Give agents persistent memory with Neo4j Agent Memory
 - Build knowledge graphs from unstructured documents
 - Implement vector and graph-enhanced retrieval strategies
 - Create intelligent agents that automatically choose the right tool for each question
 
 For more advanced topics, continue to the **Advanced Labs**:
-- [Lab 7 - Advanced Retrievers](../Lab_7_Retrievers) - Text2Cypher, entity extraction, and full dataset exploration
-- [Lab 8 - Hybrid Search](../Lab_8_Hybrid_Search) - Combining keyword and semantic search
+- [Lab 10 - Advanced Retrievers](../Lab_10_Retrievers) - Text2Cypher, entity extraction, and full dataset exploration
+- [Lab 11 - Hybrid Search](../Lab_11_Hybrid_Search) - Combining keyword and semantic search

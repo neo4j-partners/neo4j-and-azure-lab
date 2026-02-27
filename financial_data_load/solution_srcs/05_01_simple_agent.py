@@ -12,8 +12,8 @@ import asyncio
 
 from neo4j_graphrag.schema import get_schema
 
-from agent_framework.azure import AzureAIClient
-from azure.identity.aio import AzureCliCredential
+from agent_framework.azure import AzureOpenAIResponsesClient
+from azure.identity import AzureCliCredential
 
 from config import get_neo4j_driver, get_agent_config
 
@@ -35,28 +35,27 @@ async def run_agent(query: str):
     with get_neo4j_driver() as driver:
         get_graph_schema = create_schema_tool(driver)
 
-        async with AzureCliCredential() as credential:
-            async with AzureAIClient(
-                project_endpoint=config.project_endpoint,
-                model_deployment_name=config.model_name,
-                async_credential=credential,
-            ) as client:
-                async with client.create_agent(
-                    name="workshop-schema-agent",
-                    instructions="You are a helpful assistant that can answer questions about a graph database schema.",
-                    tools=[get_graph_schema],
-                ) as agent:
-                    print(f"User: {query}\n")
-                    print("Assistant: ", end="", flush=True)
+        credential = AzureCliCredential()
+        client = AzureOpenAIResponsesClient(
+            project_endpoint=config.project_endpoint,
+            deployment_name=config.model_name,
+            credential=credential,
+        )
 
-                    async for update in agent.run_stream(query):
-                        if update.text:
-                            print(update.text, end="", flush=True)
+        agent = client.as_agent(
+            name="workshop-schema-agent",
+            instructions="You are a helpful assistant that can answer questions about a graph database schema.",
+            tools=[get_graph_schema],
+        )
 
-                    print("\n")
+        print(f"User: {query}\n")
+        print("Assistant: ", end="", flush=True)
 
-    # Allow background tasks to complete before event loop closes
-    await asyncio.sleep(0.1)
+        async for update in agent.run(query, stream=True):
+            if update.text:
+                print(update.text, end="", flush=True)
+
+        print("\n")
 
 
 async def main():

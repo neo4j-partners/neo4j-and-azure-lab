@@ -159,4 +159,4 @@ You have now set up Microsoft Foundry with:
 To continue with the coding labs in Part 2:
 
 1. Continue to [Lab 4 - Start Codespace](../Lab_4_Start_Codespace) to set up your development environment
-2. Then proceed to [Lab 5 - Building a Knowledge Graph](../Lab_5_Knowledge_Graph) to build your knowledge graph from SEC filings using entity extraction and embeddings
+2. Then proceed to [Lab 5 - Foundry Agents](../Lab_5_Foundry_Agents) to build your first intelligent agent with the Microsoft Agent Framework

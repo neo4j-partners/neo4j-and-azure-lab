@@ -195,7 +195,7 @@ azd auth login
 
 ### Step 10: Run the Notebooks
 
-1. Navigate to a lab folder (e.g., `Lab_5_Knowledge_Graph`)
+1. Navigate to a lab folder (e.g., `Lab_6_Context_Providers`)
 2. Open a notebook file (e.g., `01_data_loading.ipynb`)
 3. Select the **neo4j-azure-ai-workshop** kernel when prompted
 4. Run the notebook cells using `Shift+Enter`
@@ -213,4 +213,4 @@ azd auth login
 
 ## Next Steps
 
-After completing this lab, continue to [Lab 5 - Building a Knowledge Graph](../Lab_5_Knowledge_Graph) to build your knowledge graph from SEC filings using entity extraction and embeddings.
+After completing this lab, continue to [Lab 5 - Foundry Agents](../Lab_5_Foundry_Agents) to build your first intelligent agent with the Microsoft Agent Framework.

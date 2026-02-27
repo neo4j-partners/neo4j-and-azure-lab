@@ -226,11 +226,11 @@ OPTIONAL MATCH (d)<-[:FROM_DOCUMENT]-(c:Chunk)
 WITH d, count(c) AS chunks,
      sum(CASE WHEN c.embedding IS NOT NULL THEN 1 ELSE 0 END) AS embedded
 RETURN d.path AS path, chunks, embedded
-ORDER BY d.path NULLS LAST"""
+ORDER BY d.path"""
 
 _CHAIN_Q = """\
 MATCH (c:Chunk)-[:FROM_DOCUMENT]->(d:Document)
-WITH d, c ORDER BY d.path NULLS LAST, c.index NULLS LAST
+WITH d, c ORDER BY d.path, c.index
 WITH d, c LIMIT $limit
 OPTIONAL MATCH (c)-[:NEXT_CHUNK]->(next:Chunk)
 RETURN d.path AS doc, c.index AS idx,

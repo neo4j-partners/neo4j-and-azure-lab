@@ -186,7 +186,9 @@ financial_data_load/
 │   ├── main.bicep          # Azure AI Foundry infrastructure
 │   └── main.parameters.json
 ├── scripts/
-│   └── setup_azure.sh      # Azure region configuration
+│   ├── setup_azure.sh      # Azure region configuration
+│   ├── check_status.sh     # Report Azure project and resource status
+│   └── cleanup_azure.sh    # Tear down resources and remove azd state
 ├── financial-data/         # SEC 10-K data files
 │   ├── Company_Filings.csv
 │   ├── Asset_Manager_Holdings.csv
@@ -235,8 +237,14 @@ NEO4J_PASSWORD=your-password
 
 ## Cleanup
 
-To remove deployed Azure resources:
+To remove deployed Azure resources and local azd state:
 
 ```bash
-azd down
+bash scripts/cleanup_azure.sh
+```
+
+This runs `azd down --force --purge` to delete all deployed resources, then removes the `.azure` directory. To check what's deployed before cleaning up:
+
+```bash
+bash scripts/check_status.sh
 ```

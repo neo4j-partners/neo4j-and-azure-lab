@@ -1,6 +1,6 @@
-# Lab 7 - Advanced Retrievers
+# Lab 10 - Advanced Retrievers
 
-> **Advanced Lab** - This lab builds on the core workshop (Labs 4-6) with more advanced retrieval techniques.
+> **Advanced Lab** - This lab builds on the core workshop (Labs 4-9) with more advanced retrieval techniques.
 
 In this lab, you'll learn how to use natural language to query your knowledge graph, extract structured entities from text, and work with a complete dataset. You'll use Text2Cypher to convert questions into Cypher queries, build richer graphs through entity extraction, and see the full power of GraphRAG with real-world data.
 
@@ -10,8 +10,8 @@ Before starting, make sure you have:
 - Completed **Lab 0** (Azure sign-in)
 - Completed **Lab 1** (Neo4j Aura setup)
 - Completed **Lab 4** (Codespace setup with environment variables configured)
-- Completed **Lab 5** (Knowledge graph built with embeddings)
-- Completed **Lab 6** (Foundry Agents)
+- Completed **Lab 8** (Knowledge graph built with embeddings)
+- Completed **Lab 9** (Advanced Agents)
 
 ## Lab Overview
 
@@ -54,7 +54,7 @@ uv run setup_env.py
 Then run the workshop menu:
 
 ```bash
-uv run new-workshops/main.py
+cd financial_data_load && uv run python main.py solutions
 ```
 
 Menu items 5, 6, and 7 correspond to notebooks 1, 2, and 3 respectively.
@@ -68,4 +68,4 @@ Menu items 5, 6, and 7 correspond to notebooks 1, 2, and 3 respectively.
 
 ## Next Steps
 
-After completing this lab, continue to [Lab 8 - Hybrid Search](../Lab_8_Hybrid_Search) to learn how to combine keyword and semantic search for improved retrieval accuracy.
+After completing this lab, continue to [Lab 11 - Hybrid Search](../Lab_11_Hybrid_Search) to learn how to combine keyword and semantic search for improved retrieval accuracy.

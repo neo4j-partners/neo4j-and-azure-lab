@@ -62,6 +62,17 @@ uv pip install --force-reinstall ~/projects/neo4j-graphrag-python
 3. **Text2Cypher** - Natural language to Cypher query generation
 4. **Hybrid Search** - Combined keyword (fulltext) and semantic (vector) search
 
+### Context Providers (in `financial_data_load/solution_srcs/04_*.py`)
+Uses `agent-framework-neo4j` package for automatic context injection:
+- Fulltext context provider (keyword search)
+- Vector context provider (semantic search)
+- Graph-enriched provider (vector + Cypher traversal)
+
+### Agent Memory (in `financial_data_load/solution_srcs/06_*.py`)
+Uses `neo4j-agent-memory` package for persistent agent memory:
+- Memory context provider (short-term, long-term, reasoning memory)
+- Memory tools agent (explicit search, save, recall operations)
+
 ### Agent Framework (in `financial_data_load/solution_srcs/03_*.py`)
 Uses Microsoft Agent Framework with Azure AI Foundry. Agents combine multiple tools:
 - Schema retrieval tool
@@ -76,9 +87,13 @@ Uses Microsoft Agent Framework with Azure AI Foundry. Agents combine multiple to
 ## Project Structure
 
 ```
-Lab_5_Knowledge_Graph/     # Jupyter notebooks: KG fundamentals
-Lab_6_Retrievers/          # Jupyter notebooks: GraphRAG patterns
-Lab_7_Agents/              # Jupyter notebooks: Agent Framework
+Lab_5_Foundry_Agents/      # Jupyter notebooks: Simple Foundry Agent
+Lab_6_Context_Providers/   # Jupyter notebooks: MAF context providers
+Lab_7_Agent_Memory/        # Jupyter notebooks: Neo4j Agent Memory
+Lab_8_Knowledge_Graph/     # Jupyter notebooks: KG fundamentals
+Lab_9_Advanced_Agents/     # Jupyter notebooks: Advanced Agents
+Lab_10_Retrievers/         # Jupyter notebooks: Advanced retrievers
+Lab_11_Hybrid_Search/      # Jupyter notebooks: Hybrid search
 financial_data_load/       # Python CLI and data loading
   ├── main.py              # CLI entry point (test, load, verify, clean, samples, solutions)
   ├── src/                 # Data loader modules
@@ -87,7 +102,7 @@ financial_data_load/       # Python CLI and data loading
   │   ├── loader.py        # CSV loading, company/asset manager nodes, clear, verify
   │   ├── pipeline.py      # SimpleKGPipeline, PDF processing, enrichment validation
   │   └── samples.py       # Sample queries showcasing the knowledge graph
-  ├── solution_srcs/       # Numbered workshop solution files (01_xx, 02_xx, 03_xx, 05_xx)
+  ├── solution_srcs/       # Numbered workshop solution files (01-06_xx)
   └── financial-data/      # SEC 10-K PDFs and CSV metadata
 infra/                     # Bicep templates for Azure deployment
 ```

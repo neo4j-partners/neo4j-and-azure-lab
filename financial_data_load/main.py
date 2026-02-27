@@ -151,10 +151,12 @@ def cmd_samples(args):
 
 # Solution definitions: (module_name, title, is_async, entry_func)
 # Module prefixes align with workshop labs:
-#   01_xx = Lab 5 (Building a Knowledge Graph)
-#   02_xx = Lab 6 (GraphRAG Retrievers)
-#   03_xx = Lab 7 (Intelligent Agents)
-#   05_xx = Lab 8 (Hybrid Search)
+#   01_xx = Lab 8 (Building a Knowledge Graph)
+#   02_xx = Lab 10 (Advanced Retrievers)
+#   03_xx = Lab 5 + Lab 9 (Foundry Agents + Advanced Agents)
+#   04_xx = Lab 6 (Context Providers)
+#   05_xx = Lab 11 (Hybrid Search)
+#   06_xx = Lab 7 (Agent Memory)
 SOLUTIONS = [
     ("solution_srcs.01_01_data_loading", "Data Loading Fundamentals", False, "main"),
     ("solution_srcs.01_02_embeddings", "Embeddings", True, "main"),
@@ -163,17 +165,29 @@ SOLUTIONS = [
     ("solution_srcs.02_01_vector_retriever", "Vector Retriever", False, "main"),
     ("solution_srcs.02_02_vector_cypher_retriever", "Vector Cypher Retriever", False, "main"),
     ("solution_srcs.02_03_text2cypher_retriever", "Text2Cypher Retriever", False, "main"),
-    ("solution_srcs.03_01_simple_agent", "Simple Agent", True, "run_agent"),
+    ("solution_srcs.05_01_simple_agent", "Simple Agent", True, "run_agent"),
+    ("solution_srcs.05_02_context_provider", "Context Provider Intro", True, "run_agent"),
     ("solution_srcs.03_02_vector_graph_agent", "Vector Graph Agent", True, "run_agent"),
     ("solution_srcs.03_03_text2cypher_agent", "Text2Cypher Agent", True, "run_agent"),
     ("solution_srcs.05_01_fulltext_search", "Fulltext Search", False, "main"),
     ("solution_srcs.05_02_hybrid_search", "Hybrid Search", False, "main"),
+    ("solution_srcs.04_01_fulltext_context_provider", "Fulltext Context Provider", True, "run_agent"),
+    ("solution_srcs.04_02_vector_context_provider", "Vector Context Provider", True, "run_agent"),
+    ("solution_srcs.04_03_graph_enriched_provider", "Graph-Enriched Provider", True, "run_agent"),
+    ("solution_srcs.06_01_memory_context_provider", "Memory Context Provider", True, "run_agent"),
+    ("solution_srcs.06_02_memory_tools_agent", "Memory Tools Agent", True, "run_agent"),
 ]
 
 AGENT_QUERIES = {
-    "solution_srcs.03_01_simple_agent": "Summarise the schema of the graph database.",
+    "solution_srcs.05_01_simple_agent": "Summarise the schema of the graph database.",
+    "solution_srcs.05_02_context_provider": "Hello, what is the square root of 9?",
     "solution_srcs.03_02_vector_graph_agent": "What risk factors are mentioned in Apple's financial documents?",
     "solution_srcs.03_03_text2cypher_agent": "What stock has Microsoft issued?",
+    "solution_srcs.04_01_fulltext_context_provider": "What products does Microsoft offer?",
+    "solution_srcs.04_02_vector_context_provider": "What are the main business activities of tech companies?",
+    "solution_srcs.04_03_graph_enriched_provider": "What are Apple's main products and what risks does the company face?",
+    "solution_srcs.06_01_memory_context_provider": "Hi! I'm interested in learning about Apple's products.",
+    "solution_srcs.06_02_memory_tools_agent": "I prefer concise technical explanations over high-level overviews.",
 }
 
 
@@ -191,13 +205,22 @@ def _print_solutions_menu():
     print("  5. Vector Retriever")
     print("  6. Vector Cypher Retriever")
     print("  7. Text2Cypher Retriever")
-    print("\nAgents:")
+    print("\nFoundry Agents (Lab 5):")
     print("  8. Simple Agent")
-    print("  9. Vector Graph Agent")
-    print(" 10. Text2Cypher Agent")
+    print("  9. Context Provider Intro")
+    print("\nAdvanced Agents (Lab 9):")
+    print(" 10. Vector Graph Agent")
+    print(" 11. Text2Cypher Agent")
     print("\nSearch:")
-    print(" 11. Fulltext Search")
-    print(" 12. Hybrid Search")
+    print(" 12. Fulltext Search")
+    print(" 13. Hybrid Search")
+    print("\nContext Providers (Lab 6):")
+    print(" 14. Fulltext Context Provider")
+    print(" 15. Vector Context Provider")
+    print(" 16. Graph-Enriched Provider")
+    print("\nAgent Memory (Lab 7):")
+    print(" 17. Memory Context Provider")
+    print(" 18. Memory Tools Agent")
     print("\n  A. Run all (from option 4 onwards)")
     print("  0. Exit")
     print("=" * 50)
@@ -252,14 +275,14 @@ def cmd_solutions(args):
         try:
             _run_solution(int(choice))
         except ValueError:
-            print(f"Invalid: {choice}. Use 1-12 or A.")
+            print(f"Invalid: {choice}. Use 1-17 or A.")
         return
 
     # Interactive menu
     while True:
         _print_solutions_menu()
         try:
-            choice = input("\nSelect solution (0-12, A): ").strip()
+            choice = input("\nSelect solution (0-18, A):").strip()
             if not choice:
                 continue
             if choice.upper() == "A":
@@ -334,7 +357,7 @@ def main():
     p_solutions = subparsers.add_parser(
         "solutions", help="Workshop solution runner")
     p_solutions.add_argument(
-        "choice", nargs="?", help="Solution number (1-12) or A for all")
+        "choice", nargs="?", help="Solution number (1-18) or A for all")
     p_solutions.set_defaults(func=cmd_solutions)
 
     args = parser.parse_args()

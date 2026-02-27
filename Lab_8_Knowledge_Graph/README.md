@@ -1,4 +1,4 @@
-# Lab 5 - Building a Knowledge Graph
+# Lab 8 - Building a Knowledge Graph
 
 In this lab, you'll learn how to build a knowledge graph in Neo4j for GraphRAG (Graph Retrieval-Augmented Generation) applications. You'll cover the complete pipeline from loading text data and generating embeddings, through to implementing retrieval strategies that leverage graph relationships.
 
@@ -61,4 +61,4 @@ Before running any notebook, make sure you have the correct Python kernel select
 
 ## Next Steps
 
-After completing this lab, continue to [Lab 6 - Foundry Agents](../Lab_6_Foundry_Agents) to build intelligent agents that use your knowledge graph as a tool.
+After completing this lab, continue to [Lab 9 - Advanced Agents](../Lab_9_Advanced_Agents) to build advanced agents that use your knowledge graph as a tool.

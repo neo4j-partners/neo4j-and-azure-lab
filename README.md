@@ -176,28 +176,36 @@ You'll need a laptop with a web browser. Your browser will need to be able to ac
     * Generating Knowledge Graphs
     * Retrieval Augmented Generation
     * Semantic Search
-* [Lab 5 - Building a Knowledge Graph](Lab_5_Knowledge_Graph) (30 min)
-    * Data Loading and Embeddings
-    * GraphRAG Retrievers (Vector and VectorCypher)
-* Break (5 min)
 * [Lecture - Microsoft Foundry](https://docs.google.com/presentation/d/1KPHoVJivbinHg-UtrnTIUbMiFHB8mPEnDO0v0OvvcPM/edit?usp=sharing) (15 min)
     * What is Microsoft Foundry?
     * Generative AI
-* [Lab 6 - Foundry Agents](Lab_6_Foundry_Agents) (30 min)
+* [Lab 5 - Foundry Agents](Lab_5_Foundry_Agents) (15 min)
     * Simple Schema Agent with Microsoft Agent Framework
+* [Lab 6 - MAF Context Providers](Lab_6_Context_Providers) (30 min)
+    * Fulltext Context Provider for keyword-based retrieval
+    * Vector Context Provider for semantic search
+    * Graph-Enriched Provider with relationship traversal
+* [Lab 7 - Agent Memory](Lab_7_Agent_Memory) (30 min)
+    * Memory Context Provider with Neo4j Agent Memory
+    * Agent with Memory Tools for persistent learning
+* Break (5 min)
+* [Lab 8 - Building a Knowledge Graph](Lab_8_Knowledge_Graph) (30 min)
+    * Data Loading and Embeddings
+    * GraphRAG Retrievers (Vector and VectorCypher)
+* [Lab 9 - Advanced Agents](Lab_9_Advanced_Agents) (30 min)
     * Vector + Graph Agent for Semantic Search with Context
     * Multi-Tool Agent with Text2Cypher
 
 ---
 
-### Part 2 - Advanced Labs
+### Part 3 - Advanced Labs
 *Optional advanced topics building on the core workshop.*
 
-* [Lab 7 - Advanced Retrievers](Lab_7_Retrievers) (30 min)
+* [Lab 10 - Advanced Retrievers](Lab_10_Retrievers) (30 min)
     * Text2Cypher Retriever for Natural Language Queries
     * Entity Extraction
     * Working with the Full Dataset
-* [Lab 8 - Hybrid Search](Lab_8_Hybrid_Search) (20 min)
+* [Lab 11 - Hybrid Search](Lab_11_Hybrid_Search) (20 min)
     * Fulltext Search with Neo4j indexes
     * Combining keyword and semantic search
 * [Questions and Next Steps](Questions%20and%20Next%20Steps.md) (5 min)
@@ -404,7 +412,7 @@ Install the following extensions for an optimal development experience:
 
 ### Step 12: Run the Notebooks
 
-1. In VS Code, navigate to a lab folder (e.g., `Lab_5_Knowledge_Graph`)
+1. In VS Code, navigate to a lab folder (e.g., `Lab_8_Knowledge_Graph`)
 2. Open a notebook file (e.g., `01_data_loading.ipynb`)
 3. When prompted to select a kernel:
    - Click "Select Kernel" in the top right

@@ -79,15 +79,25 @@ Dive into Python-based development to build production-ready GraphRAG applicatio
   - Launch GitHub Codespace
   - Configure environment variables
   - Deploy Azure infrastructure
-- **Lab 5 – Building a Knowledge Graph for GraphRAG**:
+- **Lab 5 – Foundry Agents**:
+  - Build a simple agent using the Microsoft Agent Framework
+  - Define tools as Python functions with docstrings
+  - Stream agent responses in real-time
+- **Lab 6 – MAF Context Providers**:
+  - Use Neo4jContextProvider for automatic knowledge graph retrieval
+  - Configure fulltext, vector, and graph-enriched search modes
+  - Combine vector search with graph traversal for rich context
+- **Lab 7 – Agent Memory**:
+  - Use Neo4j Agent Memory for persistent conversation history
+  - Create memory tools for preference learning and fact storage
+  - Build agents that remember across interactions
+- **Lab 8 – Building a Knowledge Graph for GraphRAG**:
   - Load documents and create chunk embeddings
   - Implement VectorRetriever for semantic search
   - Use VectorCypherRetriever for graph-enhanced context
-- **Lab 6 – Foundry Agents**:
-  - Build agents using the Microsoft Agent Framework
+- **Lab 9 – Advanced Agents**:
   - Create tools for schema exploration and semantic search
   - Combine graph traversal with Text2Cypher capabilities
-  - Deploy agents to Microsoft Foundry
 
 ---
 
@@ -105,11 +115,11 @@ Take your GraphRAG skills to the next level with advanced retrieval techniques. 
 
 #### Labs
 
-- **Lab 7 – Advanced GraphRAG Retrievers**:
+- **Lab 10 – Advanced GraphRAG Retrievers**:
   - Implement Text2Cypher for natural language to Cypher translation
   - Use LLMs for automated entity extraction
   - Build knowledge graphs from unstructured text
-- **Lab 8 – GraphRAG for Hybrid Search**:
+- **Lab 11 – GraphRAG for Hybrid Search**:
   - Create fulltext indexes for keyword search
   - Implement HybridRetriever combining keyword and semantic search
   - Use HybridCypherRetriever for graph-enhanced hybrid results

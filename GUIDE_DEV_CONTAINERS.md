@@ -48,4 +48,4 @@
    uv run setup_env.py
    ```
 
-6. Move on to Lab 5 - Building a Knowledge Graph: [Lab_5_Knowledge_Graph/README.md](Lab_5_Knowledge_Graph/README.md)
+6. Move on to Lab 5 - Foundry Agents: [Lab_5_Foundry_Agents/README.md](Lab_5_Foundry_Agents/README.md)

@@ -25,6 +25,8 @@ pip-log.txt
 pip-delete-this-directory.txt
 .env
 !.env.sample
+CONFIG.txt
+!CONFIG.txt.example
 .venv
 env/
 venv/

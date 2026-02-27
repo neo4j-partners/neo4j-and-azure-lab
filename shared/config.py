@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 Shared configuration and utilities for workshop solutions.
 
@@ -18,8 +16,8 @@ from neo4j_graphrag.llm import OpenAILLM
 from pydantic import Field, computed_field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# Load .env from financial_data_load directory
-_root_env = Path(__file__).parent.parent / ".env"
+# Load CONFIG.txt from repository root
+_root_env = Path(__file__).parent.parent / "CONFIG.txt"
 load_dotenv(_root_env)
 
 
